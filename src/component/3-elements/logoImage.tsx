@@ -6,7 +6,7 @@ import isologo from '@/app/isologo.png';
 
 export const LogoImage = () => {
     return (
-        <Link href="/" >
+        <Link href="/home" >
             <Image
                 src={isologo.src} 
                 width={120}

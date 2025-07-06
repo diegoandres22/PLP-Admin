@@ -5,7 +5,7 @@ import { HeroUIProvider } from "@heroui/react";
 import { ToastProvider } from "@heroui/toast";
 import { Provider } from "react-redux";
 import { store } from "@/store";
-import Sidebar from "@/component/2-sections/sideBar/sideBar";
+import { MiniBar, Sidebar } from "@/component/2-sections";
 
 
 export function ProviderComp({ children }: Readonly<{
@@ -15,7 +15,8 @@ export function ProviderComp({ children }: Readonly<{
     return (
         <HeroUIProvider>
             <Provider store={store}>
-                <Sidebar/>
+                <Sidebar />
+                <MiniBar />
                 <ToastProvider placement="bottom-center" />
                 {children}
             </Provider>

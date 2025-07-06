@@ -12,7 +12,6 @@ const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [firstPathSegment, setFirstPathSegment] = useState<string>('');
 
-    // Calcular la primera palabra de la ruta dentro del useEffect
     useEffect(() => {
         const segment = pathname.split('/')[1];
         setFirstPathSegment(segment);
@@ -29,7 +28,7 @@ const Sidebar = () => {
         handleResize();
 
         return () => window.removeEventListener('resize', handleResize);
-    }, [pathname]);  // Dependemos de `pathname` para recalcular `firstPathSegment`
+    }, [pathname]);  
 
     return (
         <>

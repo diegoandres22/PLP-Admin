@@ -7,7 +7,7 @@ import { IconChartBar, IconDatabaseDollar, IconHome, IconLogout2, IconMenu, Icon
 
 import { usePathname } from 'next/navigation';
 
-const Sidebar = () => {
+export const Sidebar = () => {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [firstPathSegment, setFirstPathSegment] = useState<string>('');
@@ -28,7 +28,7 @@ const Sidebar = () => {
         handleResize();
 
         return () => window.removeEventListener('resize', handleResize);
-    }, [pathname]);  
+    }, [pathname]);
 
     return (
         <>
@@ -100,4 +100,4 @@ const Sidebar = () => {
     );
 };
 
-export default Sidebar;
+

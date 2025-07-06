@@ -15,7 +15,7 @@ export const MiniBar = () => {
     useEffect(() => {
         dispatch(fetchRateBcvData());
 
-    }, [rateBcv]);
+    }, [dispatch, rateBcv]);
 
 
     return (

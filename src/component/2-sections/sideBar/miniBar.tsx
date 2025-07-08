@@ -27,7 +27,7 @@ export const MiniBar = () => {
                 <h3 className='text-2xl font-semibold uppercase'>
                     {pathname === "/newRaffle"
                         ? "Nueva Rifa"
-                        : window.location.pathname === "/home"
+                        : pathname === "/home"
                             ? "Inicio"
                             : segment}
                 </h3>

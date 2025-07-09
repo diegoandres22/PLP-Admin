@@ -1,3 +1,4 @@
+"use client"
 import { NotificationBell } from '@/component/3-elements';
 import { AppDispatch, RootState } from '@/store';
 import { fetchRateBcvData } from '@/store/services/rateBcvService';
@@ -36,13 +37,13 @@ export const MiniBar = () => {
 
                     <NotificationBell></NotificationBell>
 
-                    <p className='font-semibold text-sm p-1 flex items-center'>$: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
+                    <p className='font-semibold text-sm p-1 flex items-center'>Tasa: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
                 </div>
             </div>
             <div className="flex sm:hidden gap-2 bg-gray-800 w-full h-full rounded-xl p-4 justify-evenly items-center">
 
                 <NotificationBell></NotificationBell>
-                <p className='font-semibold text-sm p-1 flex items-center'>$: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
+                <p className='font-semibold text-sm p-1 flex items-center'>Tasa: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
             </div>
         </div>
     )

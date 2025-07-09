@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const fetchRateBcv = async () => {
-    const response = await fetch("https://pydolarve.org/api/v1/dollar?page=bcv&monitor=usd");
+    const response = await fetch("https://pydolarve.org/api/v1/dollar?page=bcv&monitor=eur");
     if (!response.ok) {
         throw new Error("Error fetching data");
     }

@@ -1,3 +1,4 @@
+"use client"
 import Link from 'next/link';
 import { NavBar } from './navBar';
 import { Button } from "@heroui/react";

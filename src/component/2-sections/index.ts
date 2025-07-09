@@ -3,4 +3,8 @@ export * from "./sideBar/miniBar";
 export * from "./sideBar/navBar";
 export * from "./sideBar/sideBar";
 
+// Sección home
+export * from "./home/homeSection";
+
+
 

@@ -1,3 +1,4 @@
+"use client"
 import { LogoImage } from '@/component/3-elements/logoImage'
 import { Link, Navbar, NavbarBrand, NavbarContent, NavbarMenu, NavbarMenuItem, NavbarMenuToggle } from '@heroui/react'
 import { IconHome, IconPlus } from '@tabler/icons-react'

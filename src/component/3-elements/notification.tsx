@@ -1,3 +1,4 @@
+"use client"
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@heroui/react'
 import { IconBell } from '@tabler/icons-react'
 import React from 'react'

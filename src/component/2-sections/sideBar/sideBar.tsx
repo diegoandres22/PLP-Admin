@@ -4,7 +4,7 @@ import { NavBar } from './navBar';
 import { Button } from "@heroui/react";
 import { LogoImage } from '@/component/3-elements/logoImage';
 import React, { useState, useEffect } from 'react';
-import { IconChartBar, IconDatabaseDollar, IconHome, IconLogout2, IconMenu, IconPlus, IconSettings, IconUser, IconUsersGroup, IconX } from '@tabler/icons-react';
+import { IconChartBar, IconChecklist, IconDatabaseDollar, IconHome, IconLogout2, IconMenu, IconPlus, IconSettings, IconUser, IconUsersGroup, IconX } from '@tabler/icons-react';
 
 import { usePathname } from 'next/navigation';
 
@@ -43,8 +43,8 @@ export const Sidebar = () => {
                         </button>
                     </div>
 
-                    <nav className="flex flex-col space-y-4 p-4 gap-10 items-start">
-                        {['home', 'newRaffle', 'statistics', 'players', 'Ctas.', 'settings'].map((button) => (
+                    <nav className="flex flex-col space-y-4 p-4 gap-6 items-start">
+                        {['Inicio', "Aprobaciones", 'Rifar',  'Jugadores', 'Cuentas', 'Estadísticas', 'Ajustes'].map((button) => (
                             <Link key={button} href={`/${button}`}>
                                 <Button
                                     aria-label={button}
@@ -52,12 +52,13 @@ export const Sidebar = () => {
                                     color={firstPathSegment === button ? 'primary' : 'default'}
                                 >
                                     <div className="flex items-center space-x-2">
-                                        {button === 'home' && <IconHome stroke={2} />}
-                                        {button === 'newRaffle' && <IconPlus stroke={2} />}
-                                        {button === 'statistics' && <IconChartBar stroke={2} />}
-                                        {button === 'players' && <IconUsersGroup stroke={2} />}
-                                        {button === 'Ctas.' && <IconDatabaseDollar stroke={2} />}
-                                        {button === 'settings' && <IconSettings stroke={2} />}
+                                        {button === 'Inicio' && <IconHome stroke={2} />}
+                                        {button === 'Aprobaciones' && <IconChecklist stroke={2} />}
+                                        {button === 'Rifar' && <IconPlus stroke={2} />}
+                                        {button === 'Jugadores' && <IconUsersGroup stroke={2} />}
+                                        {button === 'Cuentas' && <IconDatabaseDollar stroke={2} />}
+                                        {button === 'Estadísticas' && <IconChartBar stroke={2} />}
+                                        {button === 'Ajustes' && <IconSettings stroke={2} />}
 
                                         {isOpen && <span>{button.charAt(0).toUpperCase() + button.slice(1)}</span>}
                                     </div>

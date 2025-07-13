@@ -11,4 +11,5 @@ export * from "./logoImage";
 
 //Card vista total estado de rifas
 export * from "./home/statusRaffles";
+export * from "./home/cardRaffles";
 

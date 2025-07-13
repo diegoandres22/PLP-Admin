@@ -1,10 +1,10 @@
 "use client"
-import { NotificationBell } from '@/component/3-elements';
-import { AppDispatch, RootState } from '@/store';
-import { fetchRateBcvData } from '@/store/services/rateBcvService';
-import { usePathname } from 'next/navigation';
 import React, { useEffect } from 'react'
+import { usePathname } from 'next/navigation';
+import { AppDispatch, RootState } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
+import { NotificationBell } from '@/component/3-elements';
+import { fetchRateBcvData } from '@/store/services/rateBcvService';
 
 export const MiniBar = () => {
     const dispatch = useDispatch<AppDispatch>();

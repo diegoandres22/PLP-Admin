@@ -5,6 +5,7 @@ export * from "./sideBar/sideBar";
 
 // Sección home
 export * from "./home/homeSection";
+export * from "./home/carrouselCards";
 
 
 

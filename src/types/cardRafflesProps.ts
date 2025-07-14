@@ -1,11 +1,13 @@
 interface RaffleDetails {
     trophy: string;
-    secondPrize: string;
+    secondPrizeText: string;
+    additionalPrizeText:string;
+    additionalPrizeNum:number;
     ticketNumbers: string[];
-    additionalPrize: string;
 }
 
 export interface Raffle {
+    countdownTime: string;
     id: number;
     ticketPrice: number;
     minPurchase: number;
@@ -13,6 +15,8 @@ export interface Raffle {
     title: string;
     image: string;
     description: string;
+    progressPercentage:number
+    ticketsAcountPremium:number
     raffleDetails: RaffleDetails;
 }
 

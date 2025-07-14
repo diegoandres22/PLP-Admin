@@ -1,5 +1,5 @@
 import React from 'react'
-import { Aprobations, NewRaffle } from '@/component/1-screens'
+import { Aprobations } from '@/component/1-screens'
 
 export default function page() {
     return (

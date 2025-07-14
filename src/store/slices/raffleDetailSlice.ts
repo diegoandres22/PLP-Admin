@@ -12,7 +12,9 @@ const initialState: Raffle = {
     image: "",
     description: "",
     raffleDetails: {
-        trophy: "", secondPrizeText: "", ticketNumbers: [""], secondPrizeNum: 0
+        trophy: "", secondPrizeText: "", ticketNumbers: [""],
+        additionalPrizeText: "",
+        additionalPrizeNum: 0
     },
     countdownTime: "",
     progressPercentage: 0,

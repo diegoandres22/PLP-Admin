@@ -3,10 +3,8 @@ import React, { useEffect } from 'react'
 import { CardRaffles } from '@/component/3-elements'
 import { RootState } from '@/store'
 import { useSelector } from 'react-redux'
-import { Raffle } from '@/types'
 
-
-export const CarrouselCards: React.FC<Raffle> = () => {
+export const CarrouselCards = () => {
 
     const raffles = useSelector((state: RootState) => state.Raffles.raffles)
 

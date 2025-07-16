@@ -3,7 +3,7 @@ import { StatusRaffles } from '@/component/3-elements'
 
 export const HomeSection = () => {
     return (
-        <div className='flex w-full py-4 justify-center sm:justify-between gap-2 flex-wrap'>
+        <div className='flex w-full py-4 justify-center sm:justify-between gap-2 flex-wrap '>
             <StatusRaffles
                 color="text-green-500/90"
                 word="Activas"

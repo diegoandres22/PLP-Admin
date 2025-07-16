@@ -10,7 +10,7 @@ const boleto = <svg xmlns="http://www.w3.org/2000/svg" width={100} height={100} 
 
 export const StatusRaffles: React.FC<StatusRafflesProps> = ({ color, word, number }) => {
     return (
-        <div className={`w-72 h-36 p-4 flex bg-white/20 rounded-xl items-center justify-evenly shadow-2xl`}>
+        <div className={`w-72 h-36 p-4 flex bg-white/20 rounded-xl items-center justify-evenly shadow-2xl m-auto`}>
             <div className={`${color} `}>
                 {boleto}
             </div>

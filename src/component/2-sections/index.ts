@@ -8,4 +8,6 @@ export * from "./home/homeSection";
 export * from "./home/carrouselCards";
 
 
+// Tabla aprobaciones
+export * from "./aprobations/aprobationsSection";
 

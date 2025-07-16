@@ -5,4 +5,4 @@ export * from "./inicio/homeScreen";
 export * from "./rifar/newRaffle";
 
 //Aprobaciones
-export * from "./aprobaciones/aprobations";
+export * from "./aprobaciones/aprobationsScreen";

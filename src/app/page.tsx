@@ -1,8 +1,8 @@
 
-export default function Login() {
-  return <div className="w-full h-full flex items-center justify-center">
-    <h2>
+export default function Page() {
+  return (
+    <div className="w-full h-[89vh] pl-4 sm:pl-52 sm:py-4 pr-4 mt-2 sm:mt-0">
       Login
-    </h2>
-  </div>
+    </div>
+  )
 }

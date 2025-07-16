@@ -1,4 +1,8 @@
 //Home
-export * from "./home/homeScreen";
+export * from "./inicio/homeScreen";
 
+//Rifar
+export * from "./rifar/newRaffle";
 
+//Aprobaciones
+export * from "./aprobaciones/aprobationsScreen";

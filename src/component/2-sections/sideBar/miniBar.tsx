@@ -1,9 +1,10 @@
-import { AppDispatch, RootState } from '@/store';
-import { fetchRateBcvData } from '@/store/services/rateBcvService';
-import { IconTicket } from '@tabler/icons-react';
-import { usePathname } from 'next/navigation';
+"use client"
 import React, { useEffect } from 'react'
+import { usePathname } from 'next/navigation';
+import { AppDispatch, RootState } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
+import { NotificationBell } from '@/component/3-elements';
+import { fetchRateBcvData } from '@/store/services/rateBcvService';
 
 export const MiniBar = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -24,32 +25,25 @@ export const MiniBar = () => {
                 <h4 className='text-lg'>
                     👋 Jefferson Quezada
                 </h4>
-                <h3 className='text-2xl font-semibold uppercase' >
-                    {segment}
+                <h3 className='text-2xl font-semibold uppercase'>
+                    {pathname === "/newRaffle"
+                        ? "Nueva Rifa"
+                        : pathname === "/home"
+                            ? "Inicio"
+                            : segment}
                 </h3>
 
                 <div className="hidden sm:flex gap-2 ">
-                    <div className="flex items-center">
-                        <IconTicket stroke={2} className='text-green-500' />
-                        <strong>2</strong>
-                    </div>
-                    <div className="flex items-center">
-                        <IconTicket stroke={2} className='text-orange-500' />
-                        <strong>1</strong>
-                    </div>
-                    <p className='font-semibold text-sm p-1 flex items-center'>$: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
+
+                    <NotificationBell></NotificationBell>
+
+                    <p className='font-semibold text-sm p-1 flex items-center'>Tasa: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
                 </div>
             </div>
             <div className="flex sm:hidden gap-2 bg-gray-800 w-full h-full rounded-xl p-4 justify-evenly items-center">
-                <div className="flex items-center">
-                    <IconTicket stroke={2} className='text-green-500' />
-                    <strong>2</strong>
-                </div>
-                <div className="flex items-center">
-                    <IconTicket stroke={2} className='text-orange-500' />
-                    <strong>1</strong>
-                </div>
-                <p className='font-semibold text-sm p-1 flex items-center'>$: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
+
+                <NotificationBell></NotificationBell>
+                <p className='font-semibold text-sm p-1 flex items-center'>Tasa: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
             </div>
         </div>
     )

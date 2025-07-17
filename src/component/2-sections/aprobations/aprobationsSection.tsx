@@ -247,17 +247,19 @@ export const AprobationsSection = () => {
                                 {row.total}
                             </div>
                         </TableCell>
-                        <TableCell className='flex gap-2'>
-                            <Tooltip content="Aprobar" color='success'>
-                                <Button isIconOnly aria-label="Aprobar" color="success" variant='ghost'>
-                                    <IconSquareRoundedCheck stroke={2} />
-                                </Button>
-                            </Tooltip>
-                            <Tooltip content="Rechazar" color='danger'>
-                                <Button isIconOnly aria-label="Denegar" color="danger" variant='ghost'>
-                                    <IconSquareRoundedX stroke={2} />
-                                </Button>
-                            </Tooltip>
+                        <TableCell >
+                            <div className='flex gap-2 w-full justify-center'>
+                                <Tooltip content="Aprobar" color='success'>
+                                    <Button isIconOnly aria-label="Aprobar" color="success" variant='ghost'>
+                                        <IconSquareRoundedCheck stroke={2} />
+                                    </Button>
+                                </Tooltip>
+                                <Tooltip content="Rechazar" color='danger'>
+                                    <Button isIconOnly aria-label="Denegar" color="danger" variant='ghost'>
+                                        <IconSquareRoundedX stroke={2} />
+                                    </Button>
+                                </Tooltip>
+                            </div>
                         </TableCell>
                     </TableRow>
                 ))}

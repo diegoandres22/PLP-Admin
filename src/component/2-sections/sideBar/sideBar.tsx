@@ -47,7 +47,7 @@ export const Sidebar = () => {
                         {['Inicio', "Aprobaciones", 'Rifar', 'Jugadores', 'Cuentas', 'Estadísticas', 'Ajustes'].map((button) => (
                             <Link key={button} href={`/${button}`}>
                                 {button === 'Aprobaciones' ? (
-                                    <Badge color="danger" content={12} shape="circle" variant="faded">
+                                    <Badge color="danger" content={12} shape="circle" variant="solid" size='sm'>
                                         <Button
                                             aria-label={button}
                                             variant={firstPathSegment === button ? "bordered" : "light"}

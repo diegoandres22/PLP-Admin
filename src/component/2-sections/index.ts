@@ -7,7 +7,9 @@ export * from "./sideBar/sideBar";
 export * from "./home/homeSection";
 export * from "./home/carrouselCards";
 
-
 // Tabla aprobaciones
 export * from "./aprobations/aprobationsSection";
+
+// Nueva Rifa
+export * from "./newRaffle/newRaffleSection";
 

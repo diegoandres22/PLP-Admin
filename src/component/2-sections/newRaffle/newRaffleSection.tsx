@@ -30,7 +30,7 @@ export const NewRaffleSection = () => {
     }, [enabledTickets, enabledVolPurchase]);
 
     return (
-        <Form className="flex w-full max-w-lg gap-8 transition-all duration-300 ease-in-out" onSubmit={onSubmit} >
+        <Form className="flex w-full max-w-lg gap-8 transition-all duration-300 ease-in-out bg-white/20 p-10 rounded-2xl" onSubmit={onSubmit} >
             <Input
                 isRequired
                 errorMessage="Ingresa un nombre valido"
@@ -68,7 +68,7 @@ export const NewRaffleSection = () => {
                 name="imgTrophy1"
                 placeholder="Imagen del premio 1"
                 type="file"
-                variant="bordered"
+                variant='faded'
             />
             <Input
                 errorMessage="Ingresa un texto valido"
@@ -113,7 +113,7 @@ export const NewRaffleSection = () => {
                                 startContent={<IconTicket stroke={2} />}
                                 onChange={handleQuantityChange}
                                 placeholder="Ingresa un número entre 1 y 10"
-                                variant="bordered"
+                                variant="faded"
                                 labelPlacement="outside"
                             />
 
@@ -124,7 +124,7 @@ export const NewRaffleSection = () => {
                                         required
                                         length={4}
                                         name={`premiumTicket${index + 1}`}
-                                        variant="bordered"
+                                        variant="faded"
                                         errorMessage="Ingresa cuatro números"
                                     />
                                 </div>
@@ -159,7 +159,7 @@ export const NewRaffleSection = () => {
                             min={1}
                             max={10000}
                             placeholder="Ingresa el valor del premio en $"
-                            variant="bordered"
+                            variant="faded"
                             startContent={
                                 <div className="pointer-events-none flex items-center">
                                     <span className="text-default-500 text-lg">$</span>
@@ -210,7 +210,7 @@ export const NewRaffleSection = () => {
             />
 
 
-            <Button type="submit" variant="shadow" color='primary' className='w-80 m-auto'>
+            <Button type="submit" variant="shadow" color='primary' className='w-80 m-auto text-black font-semibold'>
                 Crear Rifa
             </Button>
             {submitted && (

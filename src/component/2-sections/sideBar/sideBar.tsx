@@ -44,7 +44,7 @@ export const Sidebar = () => {
                     </div>
 
                     <nav className="flex flex-col space-y-4 p-4 gap-6 items-start">
-                        {['Inicio', "Aprobaciones", 'Rifar', 'Jugadores', 'Cuentas', 'Estadísticas', 'Ajustes'].map((button) => (
+                        {['Inicio', "Aprobaciones", 'Rifar', 'Jugadores', 'Cuentas', 'Estadisticas', 'Ajustes'].map((button) => (
                             <Link key={button} href={`/${button}`}>
                                 {button === 'Aprobaciones' ? (
                                     <Badge color="danger" content={12} shape="circle" variant="solid" size='sm'>
@@ -70,7 +70,7 @@ export const Sidebar = () => {
                                             {button === 'Rifar' && <IconPlus stroke={2} />}
                                             {button === 'Jugadores' && <IconUsersGroup stroke={2} />}
                                             {button === 'Cuentas' && <IconDatabaseDollar stroke={2} />}
-                                            {button === 'Estadísticas' && <IconChartBar stroke={2} />}
+                                            {button === 'Estadisticas' && <IconChartBar stroke={2} />}
                                             {button === 'Ajustes' && <IconSettings stroke={2} />}
 
                                             {isOpen && <span>{button.charAt(0).toUpperCase() + button.slice(1)}</span>}

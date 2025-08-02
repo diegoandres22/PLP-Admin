@@ -6,16 +6,13 @@ import React from 'react'
 export const LoginSections = () => {
 
     const [isVisible, setIsVisible] = React.useState(false);
-    const [submitted, setSubmitted] = React.useState<{ [k: string]: FormDataEntryValue } | null>(null);
     const [password, setPassword] = React.useState("");
     const errors: string[] = [];
     const toggleVisibility = () => setIsVisible(!isVisible);
 
-    const onSubmit = (e: any) => {
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const data = Object.fromEntries(new FormData(e.currentTarget));
 
-        setSubmitted(data);
     };
     if (password.length < 4) {
         errors.push("Contraseña debe tener al menos 4 caracteres");

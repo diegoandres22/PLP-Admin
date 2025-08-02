@@ -13,3 +13,5 @@ export * from "./aprobations/aprobationsSection";
 // Nueva Rifa
 export * from "./newRaffle/newRaffleSection";
 
+// Login
+export * from "./login/loginSections";

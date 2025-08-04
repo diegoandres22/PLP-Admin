@@ -1,4 +1,5 @@
 "use client"
+import { ButtomsNextAuth } from '@/component/3-elements';
 import { Button, Form, Input } from '@heroui/react'
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import React from 'react'
@@ -24,7 +25,9 @@ export const LoginSections = () => {
         errors.push("Contraseña debe incluir al menos 1 símbolo.");
     }
     return (
-        <Form className="bg-white/50 w-80 sm:w-96 h-auto rounded-2xl flex flex-col p-4 gap-4" onSubmit={onSubmit}>
+            <div className="bg-white/50 w-80 sm:w-96 h-auto rounded-2xl flex flex-col justify-center items-center shadow-lg">
+
+        <Form className="w-80 sm:w-96 flex flex-col p-4 gap-4" onSubmit={onSubmit}>
             <h1 className='text-4xl font-extrabold text-black/70 mb-8'>Ingresar</h1>
             <Input label="Usuario" type="text" variant="faded" isRequired
                 errorMessage={<p className='font-bold '>Por favor ingresa un usuario válido</p>} />
@@ -60,5 +63,8 @@ export const LoginSections = () => {
                 Ingresar
             </Button>
         </Form>
+            <ButtomsNextAuth />
+                
+            </div>
     )
 }

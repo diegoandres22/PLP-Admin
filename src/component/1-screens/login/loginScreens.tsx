@@ -9,6 +9,7 @@ export const Login = () => {
         <LogoImage />
       </div>
       <LoginSections />
+      
     </div>
   )
 }

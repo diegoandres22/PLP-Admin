@@ -13,3 +13,5 @@ export * from "./logoImage";
 export * from "./home/statusRaffles";
 export * from "./home/cardRaffles";
 
+//Componentes de autenticación
+export * from "./loginNextAuth/buttomsNextAuth";

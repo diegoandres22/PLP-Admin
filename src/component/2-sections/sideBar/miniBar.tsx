@@ -5,9 +5,13 @@ import { AppDispatch, RootState } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { NotificationBell } from '@/component/3-elements';
 import { fetchRateBcvData } from '@/store/services/rateBcvService';
+import { useSession } from "next-auth/react";
+
 
 export const MiniBar = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const { data: session } = useSession();
+
 
     const pathname = usePathname();
     const segment = pathname.split('/')[1];
@@ -23,7 +27,7 @@ export const MiniBar = () => {
         <div className='flex w-full h-auto sm:h-24 pl-4 sm:pl-52 sm:py-4 pr-4 flex-col gap-2'>
             <div className="flex bg-gray-800 w-full h-full rounded-xl p-4 justify-evenly sm:justify-between items-center">
                 <h4 className='text-lg'>
-                    👋 Jefferson Quezada
+                    👋 {session?.user?.name}
                 </h4>
                 <h3 className='text-2xl font-semibold uppercase'>
                     {pathname === "/newRaffle"

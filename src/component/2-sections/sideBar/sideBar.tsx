@@ -4,14 +4,20 @@ import { NavBar } from './navBar';
 import { Badge, Button } from "@heroui/react";
 import { LogoImage } from '@/component/3-elements/logoImage';
 import React, { useState, useEffect } from 'react';
-import { IconChartBar, IconChecklist, IconDatabaseDollar, IconHome, IconLogout2, IconMenu, IconPlus, IconSettings, IconUser, IconUsersGroup, IconX } from '@tabler/icons-react';
-
+import {
+    IconChartBar, IconChecklist, IconDatabaseDollar, IconHome, IconLogout2, IconMenu, IconPlus, IconSettings,
+    IconUsersGroup, IconX
+} from '@tabler/icons-react';
 import { usePathname } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
+import { Image } from "@heroui/image";
+
 
 export const Sidebar = () => {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
     const [firstPathSegment, setFirstPathSegment] = useState<string>('');
+    const { data: session } = useSession();
 
     useEffect(() => {
         const segment = pathname.split('/')[1];
@@ -89,8 +95,9 @@ export const Sidebar = () => {
                                 color="primary"
                             >
                                 <div className="flex items-center space-x-2">
-                                    <IconUser stroke={2} />
-                                    {isOpen && <span>Profile</span>}
+                                    {/* <img src={session?.user?.image ?? ""} alt="avatar" width={40} style={{ borderRadius: "50%" }} /> */}
+                                    <Image src={session?.user?.image ?? ""} alt="avatar" width={40} height={40} className='rounded-full'/>
+                                    {isOpen && <span className='font-semibold '>Perfil</span>}
                                 </div>
                             </Button>
                         </Link>
@@ -99,6 +106,7 @@ export const Sidebar = () => {
                             aria-label="Cerrar sesión"
                             variant="light"
                             color="danger"
+                            onClick={() => signOut()}
                         >
                             <div className="flex items-center space-x-2">
                                 <IconLogout2 stroke={2} className="scale-150" />

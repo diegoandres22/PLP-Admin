@@ -9,21 +9,21 @@ export const ButtomsNextAuth = () => {
   const { data: session, status } = useSession();
 
   if (status === "loading") {
-    return <p>Cargando sesión...</p>;
+    return <Button isLoading className="light font-semibold my-4" color="default" onClick={() => signIn("google")}>
+        Cargando sesión de Google
+      </Button>;
   }
 
   if (!session) {
     return <Button className="light font-semibold my-4" color="default" startContent={<IconBrandGoogle stroke={2} />} onClick={() => signIn("google")}>
         Iniciar sesión con Google
       </Button>;
-    
   }
 
   return (
-    <div>
-      <p>Sesion iniciada con Google </p>
-      
-    </div>
+    <Button isDisabled  className="light font-semibold my-4" color="default" startContent={<IconBrandGoogle stroke={2} />} onClick={() => signIn("google")}>
+        Sesion iniciada con Google
+      </Button>
   );
 }
 

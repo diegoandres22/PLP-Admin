@@ -88,14 +88,13 @@ export const Sidebar = () => {
                     </nav>
 
                     <div className="flex flex-col space-y-4 p-4 items-start">
-                        <Link href={"/profile"}>
+                        <Link href={"/Perfil"}>
                             <Button
                                 aria-label="Perfil"
-                                variant={firstPathSegment === 'profile' ? "bordered" : "light"}
+                                variant={firstPathSegment === 'Perfil' ? "bordered" : "light"}
                                 color="primary"
                             >
                                 <div className="flex items-center space-x-2">
-                                    {/* <img src={session?.user?.image ?? ""} alt="avatar" width={40} style={{ borderRadius: "50%" }} /> */}
                                     <Image src={session?.user?.image ?? ""} alt="avatar" width={40} height={40} className='rounded-full'/>
                                     {isOpen && <span className='font-semibold '>Perfil</span>}
                                 </div>

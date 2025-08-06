@@ -9,3 +9,6 @@ export * from "./aprobaciones/aprobationsScreen";
 
 //Login
 export * from "./login/loginScreens";
+
+//404
+export * from "./404/ErrorPage";

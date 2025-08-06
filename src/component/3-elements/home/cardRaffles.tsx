@@ -42,7 +42,7 @@ export const CardRaffles: React.FC<Raffle> = ({
     }, [countdownTime]);
 
     return (
-        <Card className="max-w-[400px] min-w-96 bg-white/40">
+        <Card className="max-w-[300px] min-w-72 sm:min-w-96 bg-white/40">
             <CardHeader className="flex gap-3">
                 <Image
                     alt="Imagen de rifa"

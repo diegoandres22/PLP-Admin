@@ -13,7 +13,7 @@ export const CarrouselCards = () => {
     }, [raffles]);
 
     return (
-        <div className="flex w-full h-auto py-6 gap-4 flex-wrap">
+        <div className="flex w-full h-auto py-10 sm:py-6 gap-4 flex-wrap">
             {raffles.map((raffle, index) => (
                 <CardRaffles
                     key={index} countdownTime={raffle.countdownTime} image={raffle.image}

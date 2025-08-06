@@ -38,7 +38,7 @@ export const NavBar = () => {
   const pathname = usePathname()
 
   return (
-    <Navbar className="bg-black bg-opacity-80 py-4 flex sm:hidden">
+    <Navbar className="bg-transparent/10 py-4 flex sm:hidden">
       <NavbarContent justify="start">
         <NavbarBrand>
           <LogoImage />
@@ -49,7 +49,7 @@ export const NavBar = () => {
         <NavbarMenuToggle />
       </NavbarContent>
 
-      <NavbarMenu className="flex flex-col items-start justify-center bg-black/50 gap-6 px-4">
+      <NavbarMenu className="flex flex-col items-start justify-center bg-black/40 gap-6 px-4">
         {navItems.map(({ name, icon: Icon, path }, index) => {
           const isActive = pathname === path
           return (

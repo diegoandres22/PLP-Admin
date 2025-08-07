@@ -15,3 +15,6 @@ export * from "./newRaffle/newRaffleSection";
 
 // Login
 export * from "./login/loginSections";
+
+// Nueva Cuenta de Banco
+export * from "./newCtaBank/newCtaBankSection";

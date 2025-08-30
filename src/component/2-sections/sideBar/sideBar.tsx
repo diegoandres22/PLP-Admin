@@ -98,13 +98,17 @@ export const Sidebar = () => {
                 color="primary"
               >
                 <div className="flex items-center space-x-2">
-                  <Image
-                    src={session?.user?.image ?? ''}
-                    alt="avatar"
-                    width={40}
-                    height={40}
-                    className="rounded-full"
-                  />
+
+                  {session?.user?.image && (
+                    <Image
+                      src={session.user.image}
+                      alt="avatar"
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  )}
+
                   {isOpen && <span className="font-semibold">Perfil</span>}
                 </div>
               </Button>

@@ -4,7 +4,6 @@ import { usePathname } from 'next/navigation';
 import { AppDispatch, RootState } from '@/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { NotificationBell } from '@/component/3-elements';
-import { fetchRateBcvData } from '@/store/services/rateBcvService';
 import { useSession } from "next-auth/react";
 
 
@@ -18,7 +17,6 @@ export const MiniBar = () => {
     const rateBcv = useSelector((state: RootState) => state.RateBcv.price)
 
     useEffect(() => {
-        dispatch(fetchRateBcvData());
 
     }, [dispatch, rateBcv]);
 
@@ -39,15 +37,20 @@ export const MiniBar = () => {
 
                 <div className="hidden sm:flex gap-2 ">
 
-                    <NotificationBell></NotificationBell>
+                    <NotificationBell />
 
-                    <p className='font-semibold text-sm p-1 flex items-center'>Tasa: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
+                    <p className='font-semibold text-sm p-1 flex items-center'>
+                        Tasa: {rateBcv} <span className='text-xs ml-1 font-light'>bs</span>
+                    </p>
+
                 </div>
             </div>
             <div className="flex sm:hidden gap-2 bg-gray-800 w-full h-full rounded-xl p-4 justify-evenly items-center">
 
-                <NotificationBell></NotificationBell>
-                <p className='font-semibold text-sm p-1 flex items-center'>Tasa: {rateBcv} <p className='text-xs ml-1 font-light'>bs</p></p>
+                <NotificationBell />
+                <p className='font-semibold text-sm p-1 flex items-center'>
+                    Tasa: {rateBcv} <span className='text-xs ml-1 font-light'>bs</span>
+                </p>
             </div>
         </div>
     )

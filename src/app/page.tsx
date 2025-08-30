@@ -6,10 +6,10 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/store/authOptions';
 
 export default async function Page() {
-   const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
 
   if (session) {
-    redirect("/Inicio"); 
+    redirect("/Inicio");
   }
 
 

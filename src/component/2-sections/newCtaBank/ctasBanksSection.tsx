@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react'
 import { AppDispatch, RootState } from '@/store'
 import {
+    addToast,
     Spinner,
     Switch,
     Table,
@@ -13,7 +14,7 @@ import {
     TableRow
 } from '@heroui/react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchBanks } from '@/store/services/bankAcountsService'
+import { fetchBanks, toggleBankAccount } from '@/store/services/bankAcountsService'
 import { BankAccount } from '@/types' // Ajusta la ruta según dónde tengas tus interfaces
 
 export const CtasBanksSection = () => {
@@ -26,6 +27,36 @@ export const CtasBanksSection = () => {
 
     const safeValue = (val: unknown): string =>
         val !== null && val !== undefined && val !== '' ? String(val) : '-'
+
+    const changueStateCtaBank = (id: string) => {
+        addToast({
+            title: "Cambiando visualización",
+            description: "Cuenta de banco",
+            color: "default",
+            timeout: 5000,
+            promise: dispatch(toggleBankAccount(id))
+        });
+
+        dispatch(toggleBankAccount(id))
+            .then(() => {
+                addToast({
+                    title: "Cuenta actualizada",
+                    description: "La tabla se refrescó con la información más reciente.",
+                    color: "success",
+                    timeout: 3000
+                });
+            })
+            .catch(() => {
+                addToast({
+                    title: "Error",
+                    description: "No se pudo actualizar la cuenta.",
+                    color: "danger",
+                    timeout: 3000
+                });
+            });
+    };
+
+
 
     return (
         <Table
@@ -57,15 +88,19 @@ export const CtasBanksSection = () => {
                         <TableCell>{safeValue(bank.number_cta_2)}</TableCell>
                         <TableCell>{safeValue(bank.email_cta)}</TableCell>
                         <TableCell>
+
                             <Switch
                                 size="lg"
                                 isSelected={bank.is_active}
-                                isDisabled
+                                isDisabled={loading}
+                                onValueChange={() => changueStateCtaBank(bank.id)}
                             >
                                 <p className="text-small text-default-500">
                                     {bank.is_active ? 'Activa' : 'Oculta'}
                                 </p>
                             </Switch>
+
+
                         </TableCell>
                     </TableRow>
                 ))}

@@ -20,7 +20,7 @@ const banksSlice = createSlice({
         },
         setBanksList: (state, action: PayloadAction<BankAccount[]>) => {
             state.loading = false;
-            state.banksList = action.payload.filter(bank => bank.is_active);
+            state.banksList = action.payload;
         },
         fetchBanksError: (state, action: PayloadAction<string>) => {
             state.loading = false;

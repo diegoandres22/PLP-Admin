@@ -2,7 +2,7 @@
 import { AppDispatch } from "@/store";
 import { fetchBanksStart, setBanksList, fetchBanksError } from "../slices/banksAcountsSlice";
 
-const API_URL = process.env.NEXTAUTH_URL + "/bank-accounts/";
+const API_URL = process.env.NEXT_PUBLIC_API_URL + "/bank-accounts/";
 
 
 export const fetchBanks = () => async (dispatch: AppDispatch) => {

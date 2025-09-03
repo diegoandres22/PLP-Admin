@@ -4,14 +4,16 @@ import { signOut } from "next-auth/react";
 import { useEffect, useRef } from "react";
 import { addToast } from "@heroui/toast";
 
+// Configuración de producción en segundos y milisegundos
+const INACTIVITY_LIMIT = 60 * 60;         // 60 minutos
+const TOAST_TIME = 50 * 60;               // 50 minutos
+const TOAST_DURATION = 10 * 60 * 1000;    // 10 minutos en ms
+
+
 export function InactivityWatcher() {
   const logoutTimerRef = useRef<NodeJS.Timeout | null>(null);
   const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Configuración de producción en segundos y milisegundos
-  const INACTIVITY_LIMIT = 60 * 60;         // 60 minutos
-  const TOAST_TIME = 50 * 60;               // 50 minutos
-  const TOAST_DURATION = 10 * 60 * 1000;    // 10 minutos en ms
 
   useEffect(() => {
     const resetTimer = () => {

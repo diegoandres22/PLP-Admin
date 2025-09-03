@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 import { NewCtaBankSection } from '@/component/2-sections'
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
-import { CtasBanksSection } from '@/component/2-sections/newRaffle/ctasBanks.section';
+import { CtasBanksSection } from '@/component/2-sections/newCtaBank/ctasBanksSection';
 
 export const NewCtaBank = () => {
 

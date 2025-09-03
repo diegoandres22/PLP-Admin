@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroui/react": "^2.7.11",
+    "@internationalized/date": "^3.9.0",
     "@reduxjs/toolkit": "^2.8.2",
     "@tabler/icons-react": "^3.34.0",
     "framer-motion": "^12.18.1",

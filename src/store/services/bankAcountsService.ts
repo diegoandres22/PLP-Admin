@@ -16,3 +16,16 @@ export const fetchBanks = () => async (dispatch: AppDispatch) => {
         dispatch(fetchBanksError((error as Error).message || "Error desconocido al cargar bancos"));
     }
 };
+
+export const toggleBankAccount = (id: string) => async (dispatch: AppDispatch) => {
+  try {
+    await fetch(`${API_URL}${id}/toggle`, {
+      method: "PATCH",
+      headers: { "accept": "application/json" }
+    });
+    // Una vez que el toggle fue exitoso, refrescamos la lista completa
+    dispatch(fetchBanks());
+  } catch (error: string | unknown) {
+    console.error("Error al modificar la cta. de banco:", error);
+  }
+};

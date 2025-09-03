@@ -1,7 +1,8 @@
 "use client"
 import React, { useEffect } from 'react';
-import { Form, Input, Button, Switch, InputOtp } from '@heroui/react';
-import { IconGift, IconPhotoScan, IconReceiptDollar, IconReceiptOff, IconTicket, IconTicketOff } from '@tabler/icons-react';
+import { Form, Input, Button, Switch, InputOtp, SelectItem, Select, DatePicker } from '@heroui/react';
+import { IconCircleCheck, IconCurrencyDollar, IconFileAnalytics, IconGift, IconPhotoScan, IconPlayerPause, IconReceiptDollar, IconReceiptOff, IconTicket, IconTicketOff } from '@tabler/icons-react';
+import { now, CalendarDateTime } from '@internationalized/date';
 
 type FormDataType = {
     [key: string]: FormDataEntryValue;
@@ -19,6 +20,15 @@ export const NewRaffleSection = () => {
     const [enabledTickets, setEnabledTickets] = React.useState(false);
     const [enabledVolPurchase, setEnabledVolPurchase] = React.useState(false);
     const [quantity, setQuantity] = React.useState(1);
+    const today = now("UTC");
+    const minValue = new CalendarDateTime(
+        today.year,
+        today.month,
+        today.day + 1, // mañana
+        20,            // 20 horas = 8 PM
+        0,             // minutos
+        0              // segundos
+    );
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = Math.max(1, Math.min(10, parseInt(e.target.value) || 1));
@@ -42,13 +52,31 @@ export const NewRaffleSection = () => {
                 variant='faded'
             />
             <Input
-
+                isRequired
+                errorMessage="Ingresa una descripción valida"
+                label="Descripción de la rifa"
+                labelPlacement="outside"
+                name="description"
+                placeholder="Descripción"
+                type="text"
+                variant='faded'
+            />
+            <Select
+                isRequired
+                defaultSelectedKeys={["Activa"]}
+                label="Estatus de la rifa"
+                labelPlacement='outside'
+                placeholder="Selecciona un estatus"
+            // startContent={<PetIcon />}
+            >
+                <SelectItem key={1} startContent={<IconCircleCheck stroke={2} className='text-green-500' />}>Activa</SelectItem>
+                <SelectItem key={2} startContent={<IconPlayerPause stroke={2} className='text-yellow-500' />}>Pausada</SelectItem>
+            </Select>
+            <Input
+                isRequired
                 errorMessage="Ingresa un texto valido"
-                label={
-                    <div className="flex items-center gap-1">
-                        <IconGift stroke={2} className="w-4 h-4" />
-                        Premio 1 <strong className='text-red-600'>*</strong>
-                    </div>}
+                label="Premio 1"
+                startContent={<IconGift stroke={2} />}
                 labelPlacement="outside"
                 name="trophy1"
                 placeholder="Premio 1 a sortear"
@@ -56,14 +84,12 @@ export const NewRaffleSection = () => {
                 variant='faded'
             />
 
+
             <Input
+                isRequired
                 errorMessage="Ingresa una imagen válida"
-                label={
-                    <div className="flex items-center gap-1">
-                        <IconPhotoScan stroke={2} className="w-4 h-4" />
-                        Imagen del premio 1 <strong className='text-red-600'>*</strong>
-                    </div>
-                }
+                label="Imagen del premio 1"
+                startContent={<IconPhotoScan stroke={2} />}
                 labelPlacement="outside"
                 name="imgTrophy1"
                 placeholder="Imagen del premio 1"
@@ -73,11 +99,8 @@ export const NewRaffleSection = () => {
             <Input
                 errorMessage="Ingresa un texto valido"
                 labelPlacement="outside"
-                label={
-                    <div className="flex items-center gap-1">
-                        <IconGift stroke={2} className="w-4 h-4" />
-                        Premio 2 (Si aplica) <strong className='text-red-600'>*</strong>
-                    </div>}
+                label="Premio 2 (Si aplica)"
+                startContent={<IconGift stroke={2} />}
                 name="trophy2"
                 placeholder="Premio 2 a sortear"
                 type="text"
@@ -109,7 +132,7 @@ export const NewRaffleSection = () => {
                                 label="Cantidad de boletos premium"
                                 value={quantity.toString()}
                                 min={1}
-                                max={10}
+                                max={6}
                                 startContent={<IconTicket stroke={2} />}
                                 onChange={handleQuantityChange}
                                 placeholder="Ingresa un número entre 1 y 10"
@@ -154,19 +177,13 @@ export const NewRaffleSection = () => {
                 >
                     {enabledVolPurchase && (
                         <Input
-                            type="number"
+                            type="text"
                             label="Valor del premio"
-                            min={1}
-                            max={10000}
-                            placeholder="Ingresa el valor del premio en $"
+                            startContent={<IconGift stroke={2} />}
+                            placeholder="Describe brevemente el premio "
                             variant="faded"
-                            startContent={
-                                <div className="pointer-events-none flex items-center">
-                                    <span className="text-default-500 text-lg">$</span>
-                                </div>
-                            }
                             labelPlacement="outside"
-                            errorMessage="Ingresa un valor mayor a 0 y menor a 10.000"
+                            errorMessage="Ingresa un texto valido"
 
                         />
 
@@ -174,38 +191,53 @@ export const NewRaffleSection = () => {
                 </div>
             </div>
 
+            <DatePicker
+                isRequired
+                label="Fecha de sorteo"
+                minValue={minValue} />
+
+
             <Input
+                isRequired
                 errorMessage="Ingresa una cantidad valida"
                 labelPlacement="outside"
-                label={
-                    <div className="flex items-center gap-1">
-                        <IconTicket stroke={2} className="w-4 h-4" />
-                        Cantidad mínima a comprar <strong className='text-red-600'>*</strong>
-                    </div>}
+                label="Cantidad de boletos a rifar"
                 name="trophy2"
                 placeholder="Mínimo permitido"
                 type="number"
                 min={1}
-                defaultValue='2'
+                max={9999}
+                defaultValue='100'
                 variant='faded'
                 startContent={<IconTicket stroke={2} />}
             />
-
             <Input
+                isRequired
                 errorMessage="Ingresa una cantidad valida"
                 labelPlacement="outside"
-                label={
-                    <div className="flex items-center gap-1 text-xl">
-                        <IconTicket stroke={2} className="w-6 h-6" />
-                        Precio del boleto <strong className='text-red-600'>*</strong>
-                    </div>}
+                label="Cantidad mínima a comprar"
+                name="trophy2"
+                placeholder="Mínimo permitido"
+                type="number"
+                min={1}
+                max={9999}
+                defaultValue='2'
+                variant='faded'
+                startContent={<IconFileAnalytics  stroke={2} />}
+            />
+
+            <Input
+                isRequired
+                errorMessage="Ingresa una cantidad valida"
+                labelPlacement="outside"
+                label="Precio del boleto"
+                startContent={<IconCurrencyDollar stroke={2} />}
                 name="trophy2"
                 placeholder="Mínimo permitido"
                 type="number"
                 min={1}
                 defaultValue='2'
                 variant='faded'
-                startContent={"Bs"}
 
             />
 

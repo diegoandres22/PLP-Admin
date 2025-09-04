@@ -13,6 +13,7 @@
     "@internationalized/date": "^3.9.0",
     "@reduxjs/toolkit": "^2.8.2",
     "@tabler/icons-react": "^3.34.0",
+    "axios": "^1.11.0",
     "framer-motion": "^12.18.1",
     "gsap": "^3.13.0",
     "next": "15.3.4",
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/axios": "^0.9.36",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

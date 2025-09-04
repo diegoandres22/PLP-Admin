@@ -14,12 +14,12 @@ import { Image } from "@heroui/image";
 import {
     IconEye,
     IconEyeOff,
-    IconLaurelWreath1,
-    IconLaurelWreath2,
-    IconLaurelWreath3,
     IconReceiptOff,
 } from "@tabler/icons-react";
 import { Raffle, TimeLeft } from "@/types";
+import { TrophyAnimation } from "../iconsLottie/iconTrophy";
+import { TrophyAnimation2 } from "../iconsLottie/iconTrophy2";
+import { GifAnimation } from "../iconsLottie/iconGif";
 
 const useCountdown = (lotteryDate: string | undefined) => {
     const [timeLeft, setTimeLeft] = useState<TimeLeft>({
@@ -104,8 +104,8 @@ export const CardRaffles: React.FC<Raffle> = ({
 
     return (
         <Badge color={statusColors[raffle_status] || 'default'} content="" variant="solid" >
-            <Card className="max-w-[350px] min-w-[280px] sm:min-w-[400px] bg-white/40 rounded-xl shadow-lg overflow-hidden">
-                <CardHeader className="flex gap-3 items-center">
+            <Card className="max-w-[370px] min-w-[280px] sm:min-w-[400px] bg-white/30 rounded-xl shadow-lg overflow-hidden">
+                <CardHeader className="flex gap-3 items-center min-h-36 ">
                     <Image
                         alt="Imagen de rifa"
                         src={image}
@@ -115,7 +115,7 @@ export const CardRaffles: React.FC<Raffle> = ({
                     />
 
                     <div className="flex-1 flex flex-col gap-1">
-                        <h2 className="text-lg font-bold">{title}</h2>
+                        <h2 className="text-xl font-bold ">{title}</h2>
                         <span className="text-md font-semibold text-default-600">{trophy}</span>
                     </div>
 
@@ -124,22 +124,22 @@ export const CardRaffles: React.FC<Raffle> = ({
                 <Divider />
 
                 <CardBody className="flex flex-col gap-3">
-                    <p className="text-md font-semibold text-gray-700">{description}</p>
+                    <p className="text-lg font-bold ">{description}</p>
 
                     {/* Premios */}
-                    <div className="flex flex-wrap gap-3 items-center ">
-                        <div className="flex items-center gap-1">
-                            <IconLaurelWreath1 stroke={2} className="text-gray-800 scale-125" />
+                    <div className="flex flex-wrap  items-center ">
+                        <div className="flex items-center ">
+                            <TrophyAnimation />
                             <span className="font-semibold">{trophy}</span>
                         </div>
-                        <div className="flex items-center gap-1">
-                            <IconLaurelWreath2 stroke={2} className="text-gray-700 scale-125" />
+                        <div className="flex items-center gap-2">
+                            <TrophyAnimation2 />
                             <span className="font-semibold">{secondPrize}</span>
                         </div>
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center pl-8 gap-4">
                             {additionalPrize ? (
                                 <>
-                                    <IconLaurelWreath3 stroke={1.5} className="text-gray-600 scale-125" />
+                                    <GifAnimation />
                                     <span className="font-semibold">{additionalPrize} </span>
                                 </>
                             ) : (
@@ -149,33 +149,37 @@ export const CardRaffles: React.FC<Raffle> = ({
                     </div>
 
                     {/* Tickets Premium */}
-                    <div className="flex gap-2 flex-wrap font-bold">
+                    <div className="flex gap-2 flex-wrap font-bold items-center">
+                        <div className="flex w-full items-center gap-2">
 
-                        <p className="text-sm font-semibold text-neutral-300">Tickets Premium:</p>
-                        {premium_ticket1 || premium_ticket2 || premium_ticket3 || premium_ticket4 || premium_ticket5 || premium_ticket6 ? null : (
-                            <span className="text-sm font-semibold text-gray-600">Ninguno</span>
-                        )}
-                        {[premium_ticket1, premium_ticket2, premium_ticket3, premium_ticket4, premium_ticket5, premium_ticket6].map(
-                            (ticket, idx) =>
-                                ticket ? (
-                                    <Badge
-                                        key={idx}
-                                        color="warning"
-                                        variant="solid"
-                                        className="px-1 py-1 "
-                                    >
-                                        {ticket}
-                                    </Badge>
-                                ) : null
-                        )}
+                            <span className="text-3xl">🎫</span>
+                            <p className="text-sm font-semibold text-neutral-300">Tickets Premium:</p>
+                            {premium_ticket1 || premium_ticket2 || premium_ticket3 || premium_ticket4 || premium_ticket5 || premium_ticket6 ? null : (
+                                <span className="text-sm font-semibold text-neutral-800">Ninguno</span>
+                            )}
+                        </div>
+                        <div className="w-full flex justify-evenly ">
+
+                            {[premium_ticket1, premium_ticket2, premium_ticket3, premium_ticket4, premium_ticket5, premium_ticket6].map(
+                                (ticket, idx) =>
+                                    ticket ? (
+                                        <div
+                                            key={idx}
+                                            className="    px-2 py-1 bg-yellow-300 rounded-md border-l-4 border-l-yellow-500 text-black text-sm font-bold shadow-xl "
+                                        >
+                                            {ticket}
+                                        </div>
+                                    ) : null
+                            )}
+                        </div>
                     </div>
 
                     {/* Precio y mínimo de compra */}
-                    <div className="flex gap-4 items-center justify-between mt-2">
-                        <span className="rounded-md border-1 border-gray-600 px-1 text-md font-semibold text-gray-700 text-nowrap flex gap-1"> <span className="hidden sm:flex">Compra</span>  Mín: {min_purchase} boletos</span>
-                        <span className="rounded-md border-1 border-gray-600 px-1 text-md font-semibold text-gray-700 text-nowrap"> {total_tickets} boletos </span>
+                    <div className="flex gap-2 items-center justify-between mt-2">
+                            <span className="rounded-md border-2 bg-white/80 border-black px-1 text-md font-semibold text-black text-nowrap shadow-xl"> {total_tickets} boletos </span>
+                            <span className="rounded-md border-2 bg-white/80 border-black px-1 text-md font-semibold text-black text-nowrap flex gap-1 shadow-xl"> <span className="hidden sm:flex">Compra</span>  Mín: {min_purchase} boletos</span>
                         <Tooltip content="Precio del boleto" placement="top">
-                            <h3 className="text-2xl font-bold items-baseline flex">{ticket_price} <span className="text-base">.bs</span> </h3>
+                            <h3 className="text-3xl font-bold items-baseline flex text-white">{ticket_price} <span className="text-base">.bs</span> </h3>
                         </Tooltip>
                     </div>
                 </CardBody>
@@ -206,7 +210,7 @@ export const CardRaffles: React.FC<Raffle> = ({
 
 
                     <span
-                        className={`text-md font-bold flex items-center gap-2 ${state ? 'text-gray-700' : 'text-gray-600'
+                        className={`text-md font-bold flex items-center gap-2 ${state ? 'text-neutral-800' : 'text-neutral-700'
                             }`}
                     >
                         {state ? (

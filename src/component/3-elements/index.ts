@@ -18,3 +18,6 @@ export * from "./loginNextAuth/buttomsNextAuth";
 
 //Modal con imagen en aprobación
 export * from "./aprobations/modalImage"
+
+//Iconos
+export * from "./iconsLottie/iconTrophy";

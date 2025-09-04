@@ -8,6 +8,7 @@ import {
     Divider,
     Progress,
     Badge,
+    Tooltip,
 } from "@heroui/react";
 import { Image } from "@heroui/image";
 import {
@@ -89,7 +90,7 @@ export const CardRaffles: React.FC<Raffle> = ({
     premium_ticket3,
     premium_ticket4,
     premium_ticket5,
-    premium_ticket6,
+    premium_ticket6
 }) => {
     const timeLeft = useCountdown(lottery_date);
     const progressPercentage = getProgressPercentage(total_tickets, tickets_sold_list);
@@ -161,7 +162,7 @@ export const CardRaffles: React.FC<Raffle> = ({
                                         key={idx}
                                         color="warning"
                                         variant="solid"
-                                        className="px-1 py-1"
+                                        className="px-1 py-1 "
                                     >
                                         {ticket}
                                     </Badge>
@@ -170,9 +171,12 @@ export const CardRaffles: React.FC<Raffle> = ({
                     </div>
 
                     {/* Precio y mínimo de compra */}
-                    <div className="flex gap-4 items-center mt-2">
-                        <h3 className="text-xl font-bold">{ticket_price} bs</h3>
-                        <span className="text-md font-semibold text-gray-600">Mínimo: {min_purchase} boletos</span>
+                    <div className="flex gap-4 items-center justify-between mt-2">
+                        <span className="rounded-md border-1 border-gray-600 px-1 text-md font-semibold text-gray-700 text-nowrap flex gap-1"> <span className="hidden sm:flex">Compra</span>  Mín: {min_purchase} boletos</span>
+                        <span className="rounded-md border-1 border-gray-600 px-1 text-md font-semibold text-gray-700 text-nowrap"> {total_tickets} boletos </span>
+                        <Tooltip content="Precio del boleto" placement="top">
+                            <h3 className="text-2xl font-bold items-baseline flex">{ticket_price} <span className="text-base">.bs</span> </h3>
+                        </Tooltip>
                     </div>
                 </CardBody>
 
@@ -180,13 +184,19 @@ export const CardRaffles: React.FC<Raffle> = ({
 
                 {/* ------------------ FOOTER ------------------ */}
                 <CardFooter className="flex flex-col gap-2">
+
                     <Progress
                         value={progressPercentage}
-                        label="Boletos vendidos"
+                        label={
+                            <>
+                                Boletos vendidos <span className="text-xs font-semibold text-gray-900">({tickets_sold_list.length})</span>
+                            </>
+                        }
                         showValueLabel
                         color="success"
                         size="lg"
                     />
+
 
                     <span className={`text-base font-bold ${timeLeft.days || timeLeft.hours || timeLeft.minutes || timeLeft.seconds ? 'text-red-700' : 'text-black'}`}>
                         {timeLeft.days || timeLeft.hours || timeLeft.minutes || timeLeft.seconds

@@ -1,120 +1,217 @@
-"use client"
-import React, { useEffect, useState } from 'react';
-import { Card, CardHeader, Divider, CardBody, CardFooter, Progress, Badge } from '@heroui/react';
+"use client";
+import React, { useEffect, useState } from "react";
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Divider,
+    Progress,
+    Badge,
+} from "@heroui/react";
 import { Image } from "@heroui/image";
-import { IconReceiptDollar, IconReceiptOff, IconRosetteNumber1, IconRosetteNumber2, IconTicket, IconTicketOff } from '@tabler/icons-react';
-import { Raffle } from '@/types';
+import {
+    IconEye,
+    IconEyeOff,
+    IconLaurelWreath1,
+    IconLaurelWreath2,
+    IconLaurelWreath3,
+    IconReceiptOff,
+} from "@tabler/icons-react";
+import { Raffle, TimeLeft } from "@/types";
 
-
-export const CardRaffles: React.FC<Raffle> = ({
-    countdownTime, ticketPrice, title, image, raffleDetails, progressPercentage, ticketsAcountPremium
-}) => {
-    const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+const useCountdown = (lotteryDate: string | undefined) => {
+    const [timeLeft, setTimeLeft] = useState<TimeLeft>({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    });
 
     useEffect(() => {
-        const [hours, minutes, seconds] = countdownTime.split(':').map(Number);
-        setTimeLeft({ hours, minutes, seconds });
+        if (!lotteryDate) return;
 
-        const interval = setInterval(() => {
-            setTimeLeft(prevTime => {
-                let { hours, minutes, seconds } = prevTime;
-                if (seconds > 0) {
-                    seconds -= 1;
-                } else {
-                    if (minutes > 0) {
-                        minutes -= 1;
-                        seconds = 59;
-                    } else {
-                        if (hours > 0) {
-                            hours -= 1;
-                            minutes = 59;
-                            seconds = 59;
-                        } else {
-                            clearInterval(interval); // Detener el contador cuando llegue a 0
-                        }
-                    }
-                }
-                return { hours, minutes, seconds };
-            });
-        }, 1000);
+        const normalizedDate = lotteryDate.replace(/\.\d+$/, "") + "Z";
+        const targetDate = new Date(normalizedDate).getTime();
+        if (isNaN(targetDate)) return;
 
-        return () => clearInterval(interval); // Limpiar el intervalo cuando el componente se desmonte
-    }, [countdownTime]);
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference <= 0) {
+                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+                return;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((difference / (1000 * 60)) % 60);
+            const seconds = Math.floor((difference / 1000) % 60);
+
+            setTimeLeft({ days, hours, minutes, seconds });
+        };
+
+        updateCountdown();
+        const interval = setInterval(updateCountdown, 1000);
+        return () => clearInterval(interval);
+    }, [lotteryDate]);
+
+    return timeLeft;
+};
+
+
+const getProgressPercentage = (
+    totalTickets: number,
+    ticketsSoldList: string[]
+): number =>
+    totalTickets > 0
+        ? Math.min(100, Math.max(0, (ticketsSoldList.length / totalTickets) * 100))
+        : 0;
+
+// ---------------------- COMPONENTE ----------------------
+export const CardRaffles: React.FC<Raffle> = ({
+    image,
+    title,
+    trophy,
+    secondPrize,
+    additionalPrize,
+    total_tickets,
+    tickets_sold_list,
+    lottery_date,
+    ticket_price,
+    min_purchase,
+    raffle_status,
+    state,
+    description,
+    premium_ticket1,
+    premium_ticket2,
+    premium_ticket3,
+    premium_ticket4,
+    premium_ticket5,
+    premium_ticket6,
+}) => {
+    const timeLeft = useCountdown(lottery_date);
+    const progressPercentage = getProgressPercentage(total_tickets, tickets_sold_list);
+
+    const statusColors: Record<number, 'success' | 'warning' | 'default' | 'danger'> = {
+        1: 'success',
+        2: 'warning',
+        3: 'default',
+        4: 'danger'
+    };
 
     return (
-        <Card className="max-w-[300px] min-w-72 sm:min-w-96 bg-white/40">
-            <CardHeader className="flex gap-3">
-                <Image
-                    alt="Imagen de rifa"
-                    height={70}
-                    radius="lg"
-                    src={image}
-                    width={80}
-                />
-                <div className="flex flex-col">
-                    <p className="text-lg font-semibold">{title}</p>  {/* Título pasado por props */}
-                    <p className="text-md font-semibold text-default-600">{raffleDetails.trophy}</p>  {/* Subtítulo pasado por props */}
-                </div>
-            </CardHeader>
-            <Divider />
-            <CardBody>
-                <div className="flex gap-6 flex-nowrap justify-between items-center">
+        <Badge color={statusColors[raffle_status] || 'default'} content="" variant="solid" >
+            <Card className="max-w-[350px] min-w-[280px] sm:min-w-[400px] bg-white/40 rounded-xl shadow-lg overflow-hidden">
+                <CardHeader className="flex gap-3 items-center">
+                    <Image
+                        alt="Imagen de rifa"
+                        src={image}
+                        width={140}
+                        radius="lg"
+                        style={{ height: "auto" }}
+                    />
 
-                    <div className="flex gap-4 text-yellow-400">
-                        <IconRosetteNumber1 stroke={2} className='bg-yellow-400 text-black rounded-full scale-150' />
-
-
-
-                        {raffleDetails.secondPrizeText.length > 1 ? (
-                            <IconRosetteNumber2 stroke={2} className='bg-gray-300 text-black rounded-full scale-150' />
-                        ) : (
-                            <div className="relative">
-                                <IconRosetteNumber2 stroke={2} className="bg-gray-300 text-black rounded-full scale-150" />
-                                <span className="absolute -top-1 right-0 text-red-500 font-bold text-4xl">X</span>
-                            </div>
-                        )}
-
-
-                        {ticketsAcountPremium < 1 ? (
-                            <IconTicketOff stroke={2} className="scale-150 text-gray-200" />
-                        ) : (<Badge color="default" content={ticketsAcountPremium} shape="circle" placement="top-left" variant="solid">
-                            <IconTicket stroke={2} className="scale-150" />
-                        </Badge>
-                        )}
-                        {ticketsAcountPremium < 1 ? (
-                            <IconReceiptOff stroke={1.5} className='scale-150 text-gray-200' />
-                        ) : (
-                            <Badge color="default" size='sm' content={`${raffleDetails.additionalPrizeNum}$`} shape="circle" placement="top-right" variant="solid" className='scale-80' >
-                                <IconReceiptDollar stroke={1.5} className='scale-150 ' />
-                            </Badge>
-                        )}
-
+                    <div className="flex-1 flex flex-col gap-1">
+                        <h2 className="text-lg font-bold">{title}</h2>
+                        <span className="text-md font-semibold text-default-600">{trophy}</span>
                     </div>
-                    <h3 className='text-xl font-semibold border-1 px-1 rounded-md border-black'>
-                        <strong>{ticketPrice}</strong> bs  {/* Precio pasado por props */}
-                    </h3>
-                </div>
-            </CardBody>
-            <Divider />
-            <CardFooter className='flex flex-col gap-1'>
-                <Progress
-                    classNames={{
-                        base: "max-w-md",
-                        label: "tracking-wider font-medium text-default-700",
-                        value: "text-foreground",
-                    }}
-                    label="Boletos vendidos"
-                    aria-label="progreso"
-                    className="max-w-md"
-                    color="success"
-                    showValueLabel={true}
-                    size="lg"
-                    value={progressPercentage}
-                />
-                <h4 className='text-sm text-red-700 font-bold'>
-                    {`Termina en ${timeLeft.hours.toString().padStart(2, '0')}:${timeLeft.minutes.toString().padStart(2, '0')}:${timeLeft.seconds.toString().padStart(2, '0')} hs`}
-                </h4>
-            </CardFooter>
-        </Card>
+
+                </CardHeader>
+
+                <Divider />
+
+                <CardBody className="flex flex-col gap-3">
+                    <p className="text-md font-semibold text-gray-700">{description}</p>
+
+                    {/* Premios */}
+                    <div className="flex flex-wrap gap-3 items-center ">
+                        <div className="flex items-center gap-1">
+                            <IconLaurelWreath1 stroke={2} className="text-gray-800 scale-125" />
+                            <span className="font-semibold">{trophy}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            <IconLaurelWreath2 stroke={2} className="text-gray-700 scale-125" />
+                            <span className="font-semibold">{secondPrize}</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                            {additionalPrize ? (
+                                <>
+                                    <IconLaurelWreath3 stroke={1.5} className="text-gray-600 scale-125" />
+                                    <span className="font-semibold">{additionalPrize} </span>
+                                </>
+                            ) : (
+                                <IconReceiptOff stroke={1.5} className="text-gray-300 scale-125" />
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Tickets Premium */}
+                    <div className="flex gap-2 flex-wrap font-bold">
+
+                        <p className="text-sm font-semibold text-neutral-300">Tickets Premium:</p>
+                        {premium_ticket1 || premium_ticket2 || premium_ticket3 || premium_ticket4 || premium_ticket5 || premium_ticket6 ? null : (
+                            <span className="text-sm font-semibold text-gray-600">Ninguno</span>
+                        )}
+                        {[premium_ticket1, premium_ticket2, premium_ticket3, premium_ticket4, premium_ticket5, premium_ticket6].map(
+                            (ticket, idx) =>
+                                ticket ? (
+                                    <Badge
+                                        key={idx}
+                                        color="warning"
+                                        variant="solid"
+                                        className="px-1 py-1"
+                                    >
+                                        {ticket}
+                                    </Badge>
+                                ) : null
+                        )}
+                    </div>
+
+                    {/* Precio y mínimo de compra */}
+                    <div className="flex gap-4 items-center mt-2">
+                        <h3 className="text-xl font-bold">{ticket_price} bs</h3>
+                        <span className="text-md font-semibold text-gray-600">Mínimo: {min_purchase} boletos</span>
+                    </div>
+                </CardBody>
+
+                <Divider />
+
+                {/* ------------------ FOOTER ------------------ */}
+                <CardFooter className="flex flex-col gap-2">
+                    <Progress
+                        value={progressPercentage}
+                        label="Boletos vendidos"
+                        showValueLabel
+                        color="success"
+                        size="lg"
+                    />
+
+                    <span className={`text-base font-bold ${timeLeft.days || timeLeft.hours || timeLeft.minutes || timeLeft.seconds ? 'text-red-700' : 'text-black'}`}>
+                        {timeLeft.days || timeLeft.hours || timeLeft.minutes || timeLeft.seconds
+                            ? `Termina en ${timeLeft.days}d ${timeLeft.hours}:${timeLeft.minutes}:${timeLeft.seconds} hs`
+                            : '¡La rifa ha terminado!'}
+                    </span>
+
+
+                    <span
+                        className={`text-md font-bold flex items-center gap-2 ${state ? 'text-gray-700' : 'text-gray-600'
+                            }`}
+                    >
+                        {state ? (
+                            <>
+                                Rifa a la vista <IconEye stroke={2} className="text-green-400" />
+                            </>
+                        ) : (
+                            <>
+                                Rifa oculta <IconEyeOff stroke={2} className="text-gray-800" />
+                            </>
+                        )}
+                    </span>
+                </CardFooter>
+            </Card>
+        </Badge>
+
     );
 };

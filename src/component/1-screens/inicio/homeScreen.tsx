@@ -4,15 +4,22 @@ import { CarrouselCards, HomeSection } from '@/component/2-sections'
 import { IconAntennaBars1 } from '@tabler/icons-react'
 import { redirect } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { AppDispatch } from '@/store';
+import { useDispatch } from 'react-redux';
+import { fetchRaffles } from '@/store/slices/rafflesSlice';
 
 export const HomeScreen = () => {
-const { status } = useSession();
+    const dispatch = useDispatch<AppDispatch>();
+
+
+    const { status } = useSession();
 
     useEffect(() => {
         if (status === "unauthenticated") {
-             redirect("/");
+            redirect("/");
         }
-    }, [status]);
+        dispatch(fetchRaffles())
+    }, [status, dispatch]);
 
 
     return (

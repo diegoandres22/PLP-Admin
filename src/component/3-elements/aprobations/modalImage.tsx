@@ -1,8 +1,12 @@
 "use client"
 
+import { AppDispatch } from "@/store";
+import { confirmPurchase, declinePurchase } from "@/store/slices/purchaseSlice";
 import { Purchase } from "@/types/purchaseProps";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Image } from "@heroui/react";
 import { IconCoins, IconGrid3x3, IconMail, IconPhone, IconTicket } from "@tabler/icons-react";
+import { useSession } from "next-auth/react";
+import { useDispatch } from "react-redux";
 
 type ImageOnly = { image_url: string };
 
@@ -15,10 +19,11 @@ type ModalImageProps = {
 };
 
 export const ModalImage: React.FC<ModalImageProps> = ({ isOpen, onOpenChange, targetRef, moveProps, data }) => {
-    if (!data) return null;
-
+    const dispatch = useDispatch<AppDispatch>();
+    const { data: session } = useSession();
     const isFullPurchase = (obj: ImageOnly): obj is Purchase => "full_name" in obj;
-
+    
+    if (!data) return null;
     return (
         <Modal
             ref={targetRef}
@@ -73,10 +78,22 @@ export const ModalImage: React.FC<ModalImageProps> = ({ isOpen, onOpenChange, ta
 
                         {isFullPurchase(data) && (
                             <ModalFooter className="w-full flex justify-between px-6 py-4 bg-gray-50 dark:bg-gray-800 rounded-b-2xl">
-                                <Button color="danger" variant="light" className="rounded-lg" onPress={onClose}>
+                                <Button color="danger" variant="light" className="rounded-lg" onPress={
+                                                                                    ()=>{
+                                                                                        dispatch(declinePurchase({
+                                                                                                purchase_id: data.id,
+                                                                                                decline_by: session?.user?.name,
+                                                                                            }))
+                                                                                        onClose()}}>
                                     Cerrar
                                 </Button>
-                                <Button color="success" className="rounded-lg shadow-md hover:shadow-lg font-bold" onPress={onClose} variant="shadow">
+                                <Button color="success" className="rounded-lg shadow-md hover:shadow-lg font-bold" onPress={()=>{
+                                    
+                                    dispatch(confirmPurchase({
+                                                                                    purchase_id: data.id,
+                                                                                    confirmed_by: session?.user?.name //+ ' - '+ session?.user?.email
+                                                                                }))
+                                    onClose()                                            }} variant="shadow">
                                     Aprobar
                                 </Button>
                             </ModalFooter>

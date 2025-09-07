@@ -11,7 +11,7 @@ import { IconLoader } from '@tabler/icons-react'
 export const AprobationsScreen = () => {
     const { status } = useSession();
     const { purchasesList, error, loading } = useSelector((state: RootState) => state.Purchases)
-
+    const pendingPurchasesCount = purchasesList.length;
 
     useEffect(() => {
         if (status === "unauthenticated") {
@@ -37,10 +37,10 @@ export const AprobationsScreen = () => {
 
                 )}
 
-                {!loading && !error && (
+                {!loading && !error && pendingPurchasesCount > 0 && (
                     <Badge
                         color="danger"
-                        content={purchasesList.length}
+                        content={pendingPurchasesCount}
                         shape="rectangle"
                         variant="faded"
                     >

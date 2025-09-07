@@ -42,6 +42,7 @@ export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const { data: session } = useSession()
   const { purchasesList, error, loading } = useSelector((state: RootState) => state.Purchases)
+  const pendingPurchasesCount = purchasesList.length;
 
 
   useEffect(() => {
@@ -101,10 +102,10 @@ export const Sidebar = () => {
                         </Badge>
                       )}
 
-                      {!loading && !error && purchasesList.length > 0 && (
+                      {!loading && !error && pendingPurchasesCount > 0 && (
                         <Badge
                           color="danger"
-                          content={purchasesList.length}
+                          content={pendingPurchasesCount}
                           shape="rectangle"
                           variant="faded"
                           className="absolute "
@@ -112,7 +113,7 @@ export const Sidebar = () => {
                           {button}
                         </Badge>
                       )}
-                      {!loading && !error && purchasesList.length === 0 && (button)}
+                      {!loading && !error && pendingPurchasesCount === 0 && (button)}
                     </>
                   ) : (
                     button

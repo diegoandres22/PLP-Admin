@@ -21,3 +21,21 @@ export interface PurchasesState {
   loading: boolean;
   error: string | null;
 }
+export type ConfirmPurchasePayload = {
+  purchase_id: string;
+  confirmed_by: string | null | undefined;
+};
+export type DeclinePurchasePayload = {
+  purchase_id: string;
+  decline_by: string | null | undefined;
+};
+
+export type ImageOnly = { image_url: string };
+
+export interface ApiErrorDetail {
+  msg: string;
+}
+
+export interface ApiErrorResponse {
+  detail?: ApiErrorDetail[];
+}

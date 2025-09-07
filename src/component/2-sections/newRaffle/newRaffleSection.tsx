@@ -67,7 +67,6 @@ export const NewRaffleSection = () => {
                 label="Estatus de la rifa"
                 labelPlacement='outside'
                 placeholder="Selecciona un estatus"
-            // startContent={<PetIcon />}
             >
                 <SelectItem key={1} startContent={<IconCircleCheck stroke={2} className='text-green-500' />}>Activa</SelectItem>
                 <SelectItem key={2} startContent={<IconPlayerPause stroke={2} className='text-yellow-500' />}>Pausada</SelectItem>

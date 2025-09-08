@@ -6,7 +6,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL + "/bank-accounts/";
 
 
 export const fetchBanks = () => async (dispatch: AppDispatch) => {
-    dispatch(fetchBanksStart()); // Activa loading y limpia error
+    dispatch(fetchBanksStart()); 
     try {
         const res = await fetch(API_URL);
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
@@ -23,7 +23,6 @@ export const toggleBankAccount = (id: string) => async (dispatch: AppDispatch) =
       method: "PATCH",
       headers: { "accept": "application/json" }
     });
-    // Una vez que el toggle fue exitoso, refrescamos la lista completa
     dispatch(fetchBanks());
   } catch (error: string | unknown) {
     console.error("Error al modificar la cta. de banco:", error);

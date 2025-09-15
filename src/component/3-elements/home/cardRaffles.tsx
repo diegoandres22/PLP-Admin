@@ -104,7 +104,7 @@ export const CardRaffles: React.FC<Raffle> = ({
 
     return (
         <Badge color={statusColors[raffle_status] || 'default'} content="" variant="solid" >
-            <Card className="max-w-[370px] min-w-[280px] sm:min-w-[400px] bg-white/30 rounded-xl shadow-lg overflow-hidden">
+            <Card className="max-w-[330px] sm:max-w-[370px] min-w-[280px] sm:min-w-[400px] bg-white/30 rounded-xl shadow-lg overflow-hidden">
                 <CardHeader className="flex gap-3 items-center min-h-36 ">
                     <Image
                         alt="Imagen de rifa"

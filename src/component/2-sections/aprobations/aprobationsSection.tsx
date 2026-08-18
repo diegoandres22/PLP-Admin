@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import {
     Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
     Button, Tooltip, useDraggable, useDisclosure, Spinner,
@@ -26,12 +26,6 @@ export const AprobationsSection: React.FC = () => {
     const [selectedRow, setSelectedRow] = useState<Purchase | ImageOnly | null>(null);
 
     const { purchasesList, error, loading } = useSelector((state: RootState) => state.Purchases)
-
-
-    useEffect(() => {
-       
-
-    }, [dispatch, purchasesList]);
 
     return (
         <>
@@ -108,7 +102,6 @@ export const AprobationsSection: React.FC = () => {
                                             <Button
                                                 isIconOnly
                                                 onPress={() => {
-                                                    console.log("llegó", row )
                                                     setSelectedRow({ image_url: row.image_url });
                                                     onOpen()
                                                 }}

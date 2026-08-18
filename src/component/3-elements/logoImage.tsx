@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { Image } from "@heroui/image";
+import { Image } from "@heroui/react";
 import isologo from '@/app/isologo.png'; 
 
 

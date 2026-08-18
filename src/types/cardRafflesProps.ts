@@ -15,7 +15,7 @@ export interface Raffle {
   total_tickets: number;
   description: string;
   additionalPrize: string;
-  tickets_sold_list: Array<string>;
+  tickets_sold_list: Array<number>;
   premium_ticket1: string;
   lottery_date: string;
   ticket_price: number;

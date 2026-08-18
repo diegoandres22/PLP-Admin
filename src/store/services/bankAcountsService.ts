@@ -32,8 +32,10 @@ export const toggleBankAccount = (id: string) => async (dispatch: AppDispatch) =
 export const createBankAccount = (data: {
   pay_method: string;
   holder_name_cta?: string;
-  document_name?: number;
-  number_cta_1?: number;
+  // Identificadores, no cantidades: viajan como texto para no perder
+  // ceros a la izquierda ni precisión en números largos.
+  document_name?: string;
+  number_cta_1?: string;
   number_cta_2?: string;
   email_cta?: string;
 }) => async (dispatch: AppDispatch) => {

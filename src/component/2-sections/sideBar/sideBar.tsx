@@ -19,7 +19,7 @@ import {
 } from '@tabler/icons-react'
 import { LogoImage } from '@/component/3-elements/logoImage'
 import { Badge, Button } from '@heroui/react'
-import { Image } from '@heroui/image'
+import { Image } from '@heroui/react'
 import { NavBar } from './navBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/store'

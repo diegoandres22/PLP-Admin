@@ -10,7 +10,7 @@ import {
     Badge,
     Tooltip,
 } from "@heroui/react";
-import { Image } from "@heroui/image";
+import { Image } from "@heroui/react";
 import {
     IconEye,
     IconEyeOff,
@@ -64,7 +64,7 @@ const useCountdown = (lotteryDate: string | undefined) => {
 
 const getProgressPercentage = (
     totalTickets: number,
-    ticketsSoldList: string[]
+    ticketsSoldList: number[]
 ): number =>
     totalTickets > 0
         ? Math.min(100, Math.max(0, (ticketsSoldList.length / totalTickets) * 100))

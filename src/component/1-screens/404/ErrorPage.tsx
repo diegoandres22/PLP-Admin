@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image } from "@heroui/image";
+import { Image } from "@heroui/react";
 
 
 export const ErrorPage = () => {

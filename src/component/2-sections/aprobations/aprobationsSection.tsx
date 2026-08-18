@@ -16,13 +16,10 @@ import { AppDispatch, RootState } from '@/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { ImageOnly, Purchase } from '@/types/purchaseProps'
 import { confirmPurchase, declinePurchase } from '@/store/slices/purchaseSlice'
-import { useSession } from 'next-auth/react'
-
 
 
 export const AprobationsSection: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { data: session } = useSession();
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const targetRef = useRef(null) as unknown as React.RefObject<HTMLElement>
     const { moveProps } = useDraggable({ targetRef, isDisabled: !isOpen })
@@ -147,12 +144,7 @@ export const AprobationsSection: React.FC = () => {
                                                     color="success"
                                                     variant="ghost"
                                                     onPress={() => {
-                                                        dispatch(
-                                                            confirmPurchase({
-                                                                purchase_id: row.id,
-                                                                confirmed_by: session?.user?.name,
-                                                            })
-                                                        );
+                                                        dispatch(confirmPurchase(row.id));
                                                     }}
                                                 >
                                                     <IconSquareRoundedCheck stroke={2} />
@@ -174,11 +166,8 @@ export const AprobationsSection: React.FC = () => {
                                             </Tooltip>
                                             <Tooltip content="Rechazar" color="danger">
                                                 <Button isIconOnly aria-label="Denegar" color="danger" variant="ghost" onPress={
-                                                    ()=>{
-                                                        dispatch(declinePurchase({
-                                                                purchase_id: row.id,
-                                                                decline_by: session?.user?.name,
-                                                            }))}}>
+                                                    () => dispatch(declinePurchase(row.id))
+                                                }>
                                                     <IconSquareRoundedX stroke={2} />
                                                 </Button>
                                             </Tooltip>

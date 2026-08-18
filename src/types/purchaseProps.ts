@@ -21,15 +21,8 @@ export interface PurchasesState {
   loading: boolean;
   error: string | null;
 }
-export type ConfirmPurchasePayload = {
-  purchase_id: string;
-  confirmed_by: string | null | undefined;
-};
-export type DeclinePurchasePayload = {
-  purchase_id: string;
-  decline_by: string | null | undefined;
-};
-
+// El "quién" (confirmed_by/decline_by) lo determina la API a partir del
+// JWT verificado del admin, no un campo enviado por el cliente.
 export type ImageOnly = { image_url: string };
 
 export interface ApiErrorDetail {

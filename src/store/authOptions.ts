@@ -1,33 +1,11 @@
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    }),
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        username: { label: "Usuario", type: "text" },
-        password: { label: "Contraseña", type: "password" },
-      },
-      async authorize(credentials) {
-        if (
-          credentials?.username === "prueba" &&
-          credentials?.password === "prueba1234$"
-        ) {
-          return {
-            id: "manual-user",
-            name: "Usuario de Prueba",
-            email: "prueba@local.test",
-            image: null,
-          };
-        }
-        return null;
-      },
     }),
   ],
   callbacks: {
@@ -38,9 +16,6 @@ export const authOptions: NextAuthOptions = {
           return true;
         }
         return false;
-      }
-      if (account?.provider === "credentials") {
-        return true;
       }
       return false;
     },

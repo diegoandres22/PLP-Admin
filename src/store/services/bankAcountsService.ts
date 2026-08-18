@@ -1,10 +1,11 @@
 // store/services/banksService.ts
 import { AppDispatch } from "@/store";
 import { fetchBanksStart, setBanksList, fetchBanksError } from "../slices/banksAcountsSlice";
+import { apiClient, API_BASE_URL } from "@/store/apiClient";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL + "/bank-accounts/";
+const API_URL = API_BASE_URL + "/bank-accounts/";
 
-
+// Pública, sin token.
 export const fetchBanks = () => async (dispatch: AppDispatch) => {
   dispatch(fetchBanksStart());
   try {
@@ -17,17 +18,10 @@ export const fetchBanks = () => async (dispatch: AppDispatch) => {
   }
 };
 
+// Requiere admin autenticado.
 export const toggleBankAccount = (id: string) => async (dispatch: AppDispatch) => {
   try {
-    const res = await fetch(`${API_URL}${id}/toggle`, {
-      method: "PATCH",
-      headers: { "accept": "application/json" }
-    });
-
-    if (!res.ok) {
-      throw new Error(`Error al actualizar cuenta: ${res.statusText}`);
-    }
-
+    await apiClient.patch(`${API_URL}${id}/toggle`);
     dispatch(fetchBanks());
   } catch (error) {
     console.error("Error al modificar la cta. de banco:", error);
@@ -44,20 +38,7 @@ export const createBankAccount = (data: {
   email_cta?: string;
 }) => async (dispatch: AppDispatch) => {
   try {
-    const res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "accept": "application/json"
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!res.ok) {
-      throw new Error(`Error al crear la cuenta: ${res.statusText}`);
-    }
-
-    const createdBank = await res.json();
+    const { data: createdBank } = await apiClient.post(API_URL, data);
     dispatch(fetchBanks()); // Actualizar lista automáticamente
     return createdBank;
   } catch (error) {
@@ -65,19 +46,3 @@ export const createBankAccount = (data: {
     throw error;
   }
 };
-
-
-
-
-
-// export const toggleBankAccount = (id: string) => async (dispatch: AppDispatch) => {
-//   try {
-//     await fetch(`${API_URL}${id}/toggle`, {
-//       method: "PATCH",
-//       headers: { "accept": "application/json" }
-//     });
-//     dispatch(fetchBanks());
-//   } catch (error: string | unknown) {
-//     console.error("Error al modificar la cta. de banco:", error);
-//   }
-// };

@@ -31,13 +31,15 @@ export const createRaffle = createAsyncThunk<
   } catch (error) {
     let message = "Error al crear la rifa";
 
-    if (
-      typeof error === "object" &&
-      error !== null &&
-      "response" in error &&
-      typeof (error as { response?: { data?: { message?: string } } }).response?.data?.message === "string"
-    ) {
-      message = (error as { response: { data: { message: string } } }).response.data.message;
+    // La API devuelve {detail: {code, message, context}} (ver
+    // PLP_API-FastApi/src/core/errors.py). Antes esto leía
+    // response.data.message, un campo que nunca existió en ningún formato
+    // de la API — siempre caía al mensaje genérico de arriba.
+    const detail = (error as { response?: { data?: { detail?: { code?: string; message?: string; context?: unknown } } } })
+      ?.response?.data?.detail;
+    if (detail?.message) {
+      console.error("Error de API:", detail.code, detail.context);
+      message = detail.message;
     }
 
     addToast({

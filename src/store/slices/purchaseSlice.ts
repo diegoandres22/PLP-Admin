@@ -14,15 +14,12 @@ const initialState: PurchasesState = {
 };
 
 function extractErrorMessage(err: unknown): string {
-  if (
-    typeof err === "object" &&
-    err !== null &&
-    "response" in err &&
-    (err as { response?: { data?: ApiErrorResponse } }).response?.data?.detail
-  ) {
-    return (err as { response: { data: ApiErrorResponse } }).response.data.detail!
-      .map((d) => d.msg)
-      .join(",");
+  const detail = (err as { response?: { data?: ApiErrorResponse } })?.response?.data?.detail;
+  if (typeof err === "object" && err !== null && "response" in err && detail) {
+    // "message" es lo que se le muestra al usuario; "code"/"context" quedan
+    // solo en consola para depurar (ver PLP_API-FastApi/src/core/errors.py).
+    console.error("Error de API:", detail.code, detail.context);
+    return detail.message;
   }
   if (err instanceof Error) return err.message;
   return "Error desconocido";

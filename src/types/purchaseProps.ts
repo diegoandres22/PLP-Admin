@@ -28,10 +28,16 @@ export interface PurchasesState {
 // JWT verificado del admin, no un campo enviado por el cliente.
 export type ImageOnly = { image_url: string };
 
+// Forma unificada que ahora devuelve TODA la API (ver
+// PLP_API-FastApi/src/core/errors.py): antes `detail` era un arreglo de
+// {msg} (formato default de FastAPI/Pydantic), ahora es un objeto único
+// con code/message/context.
 export interface ApiErrorDetail {
-  msg: string;
+  code: string;
+  message: string;
+  context?: Record<string, unknown> | null;
 }
 
 export interface ApiErrorResponse {
-  detail?: ApiErrorDetail[];
+  detail?: ApiErrorDetail;
 }

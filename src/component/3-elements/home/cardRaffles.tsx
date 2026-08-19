@@ -179,7 +179,7 @@ export const CardRaffles: React.FC<Raffle> = ({
                             <span className="rounded-md border-2 bg-white/80 border-black px-1 text-md font-semibold text-black text-nowrap shadow-xl"> {total_tickets} boletos </span>
                             <span className="rounded-md border-2 bg-white/80 border-black px-1 text-md font-semibold text-black text-nowrap flex gap-1 shadow-xl"> <span className="hidden sm:flex">Compra</span>  Mín: {min_purchase} boletos</span>
                         <Tooltip content="Precio del boleto" placement="top">
-                            <h3 className="text-3xl font-bold items-baseline flex text-white">{ticket_price} <span className="text-base">.bs</span> </h3>
+                            <h3 className="text-3xl font-bold items-baseline flex text-white">{ticket_price}<span className="text-base">$</span> </h3>
                         </Tooltip>
                     </div>
                 </CardBody>

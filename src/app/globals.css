@@ -2,30 +2,72 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Tokens de diseño.
 
-:root {
-  --background: #ffffff;
-  --foreground: #1b2022;
-}
+  Antes: --background/--foreground cambiaban con
+  `@media (prefers-color-scheme: dark)`, pero <html> lleva class="dark" fija y
+  tailwind.config usa darkMode:"class". Resultado: a un visitante con el
+  sistema operativo en modo CLARO se le aplicaba --background:#ffffff mientras
+  todos los componentes seguían pintados para fondo oscuro (text-white en el
+  footer, etc.) => texto blanco sobre fondo blanco.
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  Ahora los tokens dependen de la clase .dark, igual que Tailwind y HeroUI, así
+  que el sitio se ve igual con cualquier preferencia del sistema.
 
-@media (prefers-color-scheme: dark) {
+  Se declaran como tripletes RGB para poder usar la opacidad de Tailwind
+  (p. ej. bg-surface-raised/95).
+
+  El bloque `@theme inline` que había aquí era sintaxis de Tailwind v4 sobre un
+  proyecto con Tailwind v3.4: no hacía absolutamente nada.
+*/
+
+@layer base {
   :root {
-    --background: #1b2022;
-    --foreground: #ffffff;
+    /* Tema claro: preparado por si más adelante se añade un selector. */
+    --surface: 255 255 255;
+    --surface-raised: 247 248 248;
+    --surface-sunken: 238 240 241;
+    --foreground: 23 23 23;
+    --foreground-muted: 75 85 99;
+    --foreground-subtle: 107 114 128;
+    --hairline: 229 231 235;
+  }
+
+  .dark {
+    /* Tema activo del sitio. */
+    --surface: 27 32 34;
+    --surface-raised: 35 42 45;
+    --surface-sunken: 22 26 28;
+    --foreground: 255 255 255;
+    --foreground-muted: 203 213 225;
+    --foreground-subtle: 148 163 184;
+    --hairline: 47 56 60;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: rgb(var(--surface));
+    color: rgb(var(--foreground));
+    /* La fuente que sí se descarga (variable definida en layout.tsx), con una
+       cadena de respaldo del sistema. */
+    font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI",
+      Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Foco visible y consistente para navegación por teclado. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--foreground));
+    outline-offset: 2px;
   }
 }
-html {
-  scroll-behavior: smooth; 
-}
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

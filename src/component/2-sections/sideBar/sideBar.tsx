@@ -19,7 +19,7 @@ import {
 } from '@tabler/icons-react'
 import { LogoImage } from '@/component/3-elements/logoImage'
 import { Badge, Button } from '@heroui/react'
-import { Image } from '@heroui/image'
+import { Image } from '@heroui/react'
 import { NavBar } from './navBar'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/store'
@@ -27,7 +27,9 @@ import { fetchPurchases } from '@/store/services/purchaseService'
 
 const menuItems = [
   { label: 'Inicio', icon: IconHome, path: '/Inicio' },
-  { label: 'Aprobaciones', icon: IconCheck, path: '/Aprobaciones', badge: 12 },
+  // badge: true solo marca que este ítem debe mostrar el contador dinámico
+  // (pendingPurchasesCount); antes era un "12" fijo sin relación con datos reales.
+  { label: 'Aprobaciones', icon: IconCheck, path: '/Aprobaciones', badge: true },
   { label: 'Rifar', icon: IconPlus, path: '/Rifar' },
   { label: 'Jugadores', icon: IconUsersGroup, path: '/Jugadores' },
   { label: 'Cuentas', icon: IconDatabaseDollar, path: '/Cuentas' },
@@ -42,7 +44,10 @@ export const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const { data: session } = useSession()
   const { purchasesList, error, loading } = useSelector((state: RootState) => state.Purchases)
-  const pendingPurchasesCount = purchasesList.length;
+  // Antes contaba TODAS las compras devueltas (confirmadas + rechazadas +
+  // pendientes). is_confirmed es null/undefined solo mientras está pendiente
+  // de revisión (ver aprobationsSection.tsx).
+  const pendingPurchasesCount = purchasesList.filter((p) => p.is_confirmed == null).length;
 
 
   useEffect(() => {

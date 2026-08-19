@@ -1,22 +1,19 @@
-import axios from "axios";
 import { AppDispatch } from "@/store";
 import {
   fetchPurchasesStart,
   setPurchasesList,
   fetchPurchasesError,
 } from "@/store/slices/purchaseSlice";
-import { ConfirmPurchasePayload, DeclinePurchasePayload, Purchase } from "@/types/purchaseProps";
+import { Purchase } from "@/types/purchaseProps";
+import { apiClient, API_BASE_URL } from "@/store/apiClient";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL + "/purchase";
+const API_URL = API_BASE_URL + "/purchase";
 
+// Requiere admin autenticado (GET /purchase/confirm_Purchases).
 export const fetchPurchases = () => async (dispatch: AppDispatch) => {
   dispatch(fetchPurchasesStart());
   try {
-    const res = await fetch(API_URL+ "/confirm_Purchases", {
-      headers: { accept: "application/json" },
-    });
-    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-    const data = await res.json();
+    const { data } = await apiClient.get<Purchase[]>(API_URL + "/confirm_Purchases");
     dispatch(setPurchasesList(data));
   } catch (error: unknown) {
     dispatch(
@@ -27,19 +24,14 @@ export const fetchPurchases = () => async (dispatch: AppDispatch) => {
   }
 };
 
-
-export const confirmPurchaseAPI = async ({ purchase_id, confirmed_by }: ConfirmPurchasePayload): Promise<Purchase> => {
-  const response = await axios.put<Purchase>(API_URL +`/confirm/${purchase_id}`, null, {
-    params: { confirmed_by },
-  });
-
+// El "quién" (confirmed_by/decline_by) ya no se envía desde el cliente:
+// la API lo toma del JWT verificado.
+export const confirmPurchaseAPI = async (purchaseId: string): Promise<Purchase> => {
+  const response = await apiClient.put<Purchase>(`${API_URL}/confirm/${purchaseId}`);
   return response.data;
 };
 
-export const declinePurchaseAPI = async ({ purchase_id, decline_by }: DeclinePurchasePayload): Promise<Purchase> => {
-  const response = await axios.put<Purchase>(API_URL +`/decline/${purchase_id}`, null, {
-    params: { decline_by },
-  });
-
+export const declinePurchaseAPI = async (purchaseId: string): Promise<Purchase> => {
+  const response = await apiClient.put<Purchase>(`${API_URL}/decline/${purchaseId}`);
   return response.data;
 };

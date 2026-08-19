@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { CardRaffles } from "@/component/3-elements";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
@@ -9,9 +9,6 @@ export const CarrouselCards = () => {
   const { raffles, loading, error } = useSelector(
     (state: RootState) => state.Raffles
   );
-
-  useEffect(() => {
-  }, [raffles]);
 
   const skeletons = Array(4).fill(0);
 

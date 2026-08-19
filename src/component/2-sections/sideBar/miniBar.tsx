@@ -1,56 +1,40 @@
 "use client"
-import React, { useEffect } from 'react'
+import React from 'react'
 import { usePathname } from 'next/navigation';
-import { AppDispatch, RootState } from '@/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { NotificationBell } from '@/component/3-elements';
 import { useSession } from "next-auth/react";
 
+// NotificationBell se retiró: mostraba "Notificación 1..4" hardcodeadas, sin
+// ninguna fuente de datos detrás. Una campana que nunca notifica nada real
+// entrena al administrador a ignorarla. Volver a añadirla cuando exista el
+// endpoint de notificaciones.
+//
+// El widget "Tasa BCV" también se retiró: mostraba un valor fijo (200) que
+// nunca se actualizaba (el reducer que debía hacerlo era un no-op) y nadie
+// lo despachaba. Volver a añadirlo si se conecta a una fuente real.
 
 export const MiniBar = () => {
-    const dispatch = useDispatch<AppDispatch>();
     const { data: session } = useSession();
-
 
     const pathname = usePathname();
     const segment = pathname.split('/')[1];
-    const rateBcv = useSelector((state: RootState) => state.RateBcv.price)
 
-    useEffect(() => {
-
-    }, [dispatch, rateBcv]);
-
+    // Antes comparaba contra "/newRaffle" y "/home", rutas que no existen en
+    // esta app (las reales son "/Rifar" e "/Inicio"): esas ramas nunca se
+    // cumplían y el título siempre caía en el segmento genérico.
+    const titulo =
+        pathname === "/Rifar" ? "Nueva Rifa"
+            : pathname === "/Inicio" ? "Inicio"
+                : segment;
 
     return (
         <div className='flex w-full h-auto sm:h-24 pl-4 sm:pl-52 sm:py-4 pr-4 flex-col gap-2'>
-            <div className="flex bg-gray-800 w-full h-full rounded-xl p-4 justify-evenly sm:justify-between items-center">
+            <div className="flex bg-surface-raised w-full h-full rounded-xl p-4 justify-evenly sm:justify-between items-center">
                 <h4 className='text-lg'>
                     👋 {session?.user?.name}
                 </h4>
                 <h3 className='text-2xl font-semibold uppercase'>
-                    {pathname === "/newRaffle"
-                        ? "Nueva Rifa"
-                        : pathname === "/home"
-                            ? "Inicio"
-                            : segment}
+                    {titulo}
                 </h3>
-
-                <div className="hidden sm:flex gap-2 ">
-
-                    <NotificationBell />
-
-                    <p className='font-semibold text-sm p-1 flex items-center'>
-                        Tasa: {rateBcv} <span className='text-xs ml-1 font-light'>bs</span>
-                    </p>
-
-                </div>
-            </div>
-            <div className="flex sm:hidden gap-2 bg-gray-800 w-full h-full rounded-xl p-4 justify-evenly items-center">
-
-                <NotificationBell />
-                <p className='font-semibold text-sm p-1 flex items-center'>
-                    Tasa: {rateBcv} <span className='text-xs ml-1 font-light'>bs</span>
-                </p>
             </div>
         </div>
     )

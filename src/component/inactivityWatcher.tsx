@@ -2,83 +2,73 @@
 
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useRef } from "react";
-import { addToast, Button } from "@heroui/react";
+import { addToast } from "@heroui/react";
 
-// Configuración para 30 minutos de sesión
-const TOTAL_SESSION_MS = 30 * 60 * 1000; // 30 minutos
-const TOAST_BEFORE_MS = 5 * 60 * 1000;   // 5 minutos antes del cierre
-const TOAST_DURATION_MS = 5 * 60 * 1000; // Duración del toast 5 minutos
+/**
+ * Aviso y cierre de sesión al expirar.
+ *
+ * El límite REAL lo impone NextAuth en el servidor (session.maxAge, ver
+ * src/store/authOptions.ts). Este componente solo se encarga de la parte
+ * visible: avisar antes de que caduque y sacar al usuario de la pantalla en
+ * vez de dejarlo con una interfaz que ya no responde.
+ *
+ * Cambios respecto a la versión anterior:
+ *  - El botón "Posponer" solo hacía console.log: prometía renovar la sesión y
+ *    no renovaba nada. Se eliminó en vez de dejar un control que engaña.
+ *  - Había un setInterval imprimiendo el tiempo restante en consola CADA
+ *    SEGUNDO durante toda la sesión. Eliminado.
+ *  - El temporizador arrancaba en cada cambio del objeto `session`, no en el
+ *    inicio real de la sesión. Ahora se ancla a session.expires, que es la
+ *    caducidad que dicta el servidor.
+ */
 
-function formatTime(ms: number) {
-  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-}
+const AVISO_PREVIO_MS = 5 * 60 * 1000; // avisar 5 minutos antes
 
 export function InactivityWatcher() {
   const { data: session } = useSession();
-  const loggedOutRef = useRef(false);
-  const loginTimestampRef = useRef<number>(0);
-  const fixedTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const toastTimerRef = useRef<NodeJS.Timeout | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const yaCerroRef = useRef(false);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  // session.expires es un ISO string; se usa como dependencia primitiva para
+  // no reprogramar los timers en cada re-render.
+  const expiraEn = session?.expires;
 
   useEffect(() => {
-    if (!session) return;
+    if (!expiraEn) return;
 
-    // Guardamos timestamp de inicio
-    loginTimestampRef.current = Date.now();
-    console.log("Sesión iniciada a las:", new Date(loginTimestampRef.current).toLocaleTimeString());
-
-    const logout = () => {
-      if (loggedOutRef.current) return;
-      loggedOutRef.current = true;
-      console.log("Sesión cerrada: límite total");
+    const msRestantes = new Date(expiraEn).getTime() - Date.now();
+    if (msRestantes <= 0) {
       signOut();
+      return;
+    }
+
+    const cerrarSesion = () => {
+      if (yaCerroRef.current) return;
+      yaCerroRef.current = true;
+      signOut({ callbackUrl: "/" });
     };
 
-    const showToast = () => {
+    const avisar = () =>
       addToast({
-        title: "Atención",
-        description: "Tu sesión se cerrará pronto",
+        title: "Tu sesión está por vencer",
+        description: "Vuelve a iniciar sesión para seguir trabajando.",
         color: "warning",
-        timeout: TOAST_DURATION_MS,
+        timeout: Math.min(AVISO_PREVIO_MS, msRestantes),
         shouldShowTimeoutProgress: true,
-        endContent: (
-          <Button
-            size="sm"
-            variant="flat"
-            onPress={() => {
-              console.log("Usuario pospuso la sesión +5 minutos");
-            }}
-          >
-            Posponer
-          </Button>
-        ),
       });
-    };
 
-    // Timer total de sesión: cierra a los 30 minutos
-    fixedTimerRef.current = setTimeout(logout, TOTAL_SESSION_MS);
+    timers.current.push(setTimeout(cerrarSesion, msRestantes));
 
-    // Mostrar toast 5 minutos antes
-    toastTimerRef.current = setTimeout(showToast, TOTAL_SESSION_MS - TOAST_BEFORE_MS);
+    if (msRestantes > AVISO_PREVIO_MS) {
+      timers.current.push(setTimeout(avisar, msRestantes - AVISO_PREVIO_MS));
+    }
 
-    // Intervalo para mostrar contador en consola cada segundo
-    intervalRef.current = setInterval(() => {
-      const elapsed = Date.now() - loginTimestampRef.current;
-      const remaining = Math.max(0, TOTAL_SESSION_MS - elapsed);
-      console.log("Tiempo restante sesión:", formatTime(remaining));
-    }, 1000);
-
+    const pendientes = timers.current;
     return () => {
-      console.log("Limpiando timers");
-      if (fixedTimerRef.current) clearTimeout(fixedTimerRef.current);
-      if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
-      if (intervalRef.current) clearInterval(intervalRef.current);
+      pendientes.forEach(clearTimeout);
+      timers.current = [];
     };
-  }, [session]);
+  }, [expiraEn]);
 
   return null;
 }

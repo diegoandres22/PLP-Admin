@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import {
     Table, TableHeader, TableColumn, TableBody, TableRow, TableCell,
     Button, Tooltip, useDraggable, useDisclosure, Spinner,
@@ -16,25 +16,16 @@ import { AppDispatch, RootState } from '@/store'
 import { useDispatch, useSelector } from 'react-redux'
 import { ImageOnly, Purchase } from '@/types/purchaseProps'
 import { confirmPurchase, declinePurchase } from '@/store/slices/purchaseSlice'
-import { useSession } from 'next-auth/react'
-
 
 
 export const AprobationsSection: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { data: session } = useSession();
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const targetRef = useRef(null) as unknown as React.RefObject<HTMLElement>
     const { moveProps } = useDraggable({ targetRef, isDisabled: !isOpen })
     const [selectedRow, setSelectedRow] = useState<Purchase | ImageOnly | null>(null);
 
     const { purchasesList, error, loading } = useSelector((state: RootState) => state.Purchases)
-
-
-    useEffect(() => {
-       
-
-    }, [dispatch, purchasesList]);
 
     return (
         <>
@@ -111,7 +102,6 @@ export const AprobationsSection: React.FC = () => {
                                             <Button
                                                 isIconOnly
                                                 onPress={() => {
-                                                    console.log("llegó", row )
                                                     setSelectedRow({ image_url: row.image_url });
                                                     onOpen()
                                                 }}
@@ -147,12 +137,7 @@ export const AprobationsSection: React.FC = () => {
                                                     color="success"
                                                     variant="ghost"
                                                     onPress={() => {
-                                                        dispatch(
-                                                            confirmPurchase({
-                                                                purchase_id: row.id,
-                                                                confirmed_by: session?.user?.name,
-                                                            })
-                                                        );
+                                                        dispatch(confirmPurchase(row.id));
                                                     }}
                                                 >
                                                     <IconSquareRoundedCheck stroke={2} />
@@ -174,11 +159,8 @@ export const AprobationsSection: React.FC = () => {
                                             </Tooltip>
                                             <Tooltip content="Rechazar" color="danger">
                                                 <Button isIconOnly aria-label="Denegar" color="danger" variant="ghost" onPress={
-                                                    ()=>{
-                                                        dispatch(declinePurchase({
-                                                                purchase_id: row.id,
-                                                                decline_by: session?.user?.name,
-                                                            }))}}>
+                                                    () => dispatch(declinePurchase(row.id))
+                                                }>
                                                     <IconSquareRoundedX stroke={2} />
                                                 </Button>
                                             </Tooltip>

@@ -1,13 +1,14 @@
 
 import { configureStore } from "@reduxjs/toolkit";
-import rateBcvSlice from "./slices/rateBcvSlice";
 import raffleSlice from "./slices/rafflesSlice";
 import banksAcounts from "./slices/banksAcountsSlice";
 import purchaseSlice from "./slices/purchaseSlice";
 
+// rateBcvSlice se retiró junto con el widget "Tasa BCV" (ver miniBar.tsx):
+// el valor era fijo y su reducer nunca mutaba el estado. El archivo quedó
+// movido a _to_delete/ por si se quiere recuperar al conectarlo a una API real.
 export const store = configureStore({
   reducer: {
-    RateBcv : rateBcvSlice,
     Raffles: raffleSlice,
     BanksAcounts: banksAcounts,
     Purchases: purchaseSlice,

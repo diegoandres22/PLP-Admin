@@ -4,20 +4,16 @@
 // componentes de cliente. Sin esta directiva el servidor falla con
 // "createContext only works in Client Components".
 import React from 'react'
-import { Image } from "@heroui/react";
+import { IconMoodSad2 } from "@tabler/icons-react";
 
-
+// Antes mostraba /404Error.png, un archivo que no existe en el repo (no hay
+// carpeta public/): la pantalla de error se veía rota. Se reemplaza por un
+// ícono, sin depender de ningún asset externo.
 export const ErrorPage = () => {
   return (
-    <div className="w-full h-full flex items-center justify-center bg-black rounded-3xl">
-      <Image
-        shadow="lg"
-        src="/404Error.png"
-        width={1620}
-        height={780}
-        alt="404 Error"
-        className="object-contain max-w-full max-h-full"
-      />
+    <div className="w-full h-full flex flex-col items-center justify-center gap-4 bg-surface-raised rounded-3xl text-foreground-muted">
+      <IconMoodSad2 stroke={1.5} size={96} className="opacity-60" />
+      <h2 className="text-2xl font-semibold">Página no encontrada</h2>
     </div>
   )
 }

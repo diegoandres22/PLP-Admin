@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation'
 import { LogoImage } from '@/component/3-elements/logoImage'
 import {
+  Badge,
   Link,
   Navbar,
   NavbarBrand,
@@ -24,6 +25,8 @@ import {
 } from '@tabler/icons-react'
 import React from 'react'
 import { signOut } from 'next-auth/react'
+import { useSelector } from 'react-redux'
+import { RootState } from '@/store'
 
 const navItems = [
   { name: 'Inicio', icon: IconHome, path: '/Inicio' },
@@ -38,6 +41,10 @@ const navItems = [
 
 export const NavBar = () => {
   const pathname = usePathname()
+  // Antes el sidebar de escritorio mostraba cuántas compras estaban
+  // pendientes de revisar y el menú móvil no tenía ninguna señal equivalente.
+  const { purchasesList } = useSelector((state: RootState) => state.Purchases)
+  const pendingPurchasesCount = purchasesList.filter((p) => p.is_confirmed == null).length
 
   return (
     <Navbar className="bg-transparent/10 py-4 flex sm:hidden">
@@ -63,7 +70,13 @@ export const NavBar = () => {
                   : 'text-white hover:text-blue-600'
                   }`}
               >
-                <Icon stroke={2} className="scale-150" />
+                {name === 'Aprobaciones' && pendingPurchasesCount > 0 ? (
+                  <Badge color="danger" content={pendingPurchasesCount} shape="rectangle" variant="faded">
+                    <Icon stroke={2} className="scale-150" />
+                  </Badge>
+                ) : (
+                  <Icon stroke={2} className="scale-150" />
+                )}
                 <span>{name}</span>
               </Link>
             </NavbarMenuItem>

@@ -61,11 +61,10 @@ export const NewRaffleSection = () => {
     data.set("ticket_price", data.get("ticket_price") as string);
     data.set("min_purchase", data.get("min_purchase") as string);
 
-    // raffle_status siempre 1
-    data.set("raffle_status", "1");
-
-    // state depende del valor del select
+    // Antes raffle_status se enviaba fijo en "1" sin importar lo que el
+    // admin eligiera en el Select (Activa/Oculto): ahora se respeta.
     const selectedStatus = form.querySelector<HTMLSelectElement>('select[name="raffle_status"]')?.value;
+    data.set("raffle_status", selectedStatus ?? "1");
     data.set("state", selectedStatus === "1" ? "true" : "false");
 
     data.set("trophy", data.get("trophy1") as string);
@@ -81,13 +80,17 @@ export const NewRaffleSection = () => {
     if (file) data.set("file", file);
 
     // enviar a Redux
-    await dispatch(createRaffle(data));
+    const result = await dispatch(createRaffle(data));
 
-    // limpiar formulario y estados internos
-    form.reset();
-    setEnabledTickets(false);
-    setEnabledVolPurchase(false);
-    setQuantity(1);
+    // Antes se limpiaba el formulario pasara lo que pasara: si la API
+    // fallaba, el admin perdía todo lo que había escrito. Ahora solo se
+    // limpia si la creación fue exitosa.
+    if (createRaffle.fulfilled.match(result)) {
+        form.reset();
+        setEnabledTickets(false);
+        setEnabledVolPurchase(false);
+        setQuantity(1);
+    }
 };
 
 

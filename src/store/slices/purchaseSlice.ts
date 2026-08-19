@@ -4,6 +4,7 @@ import {
   PurchasesState,
 } from "@/types/purchaseProps";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { addToast } from "@heroui/react";
 import { confirmPurchaseAPI, declinePurchaseAPI } from "../services/purchaseService";
 
 const initialState: PurchasesState = {
@@ -34,10 +35,14 @@ export const confirmPurchase = createAsyncThunk<
   { rejectValue: string }
 >("purchases/confirmPurchase", async (purchaseId, { rejectWithValue }) => {
   try {
-    return await confirmPurchaseAPI(purchaseId);
+    const result = await confirmPurchaseAPI(purchaseId);
+    addToast({ title: "Compra aprobada ✅", timeout: 3000, color: "success" });
+    return result;
   } catch (err: unknown) {
     console.error("Error en redux toolkit:", err);
-    return rejectWithValue(extractErrorMessage(err));
+    const message = extractErrorMessage(err);
+    addToast({ title: "Error al aprobar ❌", description: message, timeout: 5000, color: "danger" });
+    return rejectWithValue(message);
   }
 });
 
@@ -47,10 +52,14 @@ export const declinePurchase = createAsyncThunk<
   { rejectValue: string }
 >("purchases/declinePurchase", async (purchaseId, { rejectWithValue }) => {
   try {
-    return await declinePurchaseAPI(purchaseId);
+    const result = await declinePurchaseAPI(purchaseId);
+    addToast({ title: "Compra rechazada", timeout: 3000, color: "warning" });
+    return result;
   } catch (err: unknown) {
     console.error("Error en redux toolkit:", err);
-    return rejectWithValue(extractErrorMessage(err));
+    const message = extractErrorMessage(err);
+    addToast({ title: "Error al rechazar ❌", description: message, timeout: 5000, color: "danger" });
+    return rejectWithValue(message);
   }
 });
 

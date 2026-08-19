@@ -11,7 +11,10 @@ export interface Purchase {
   full_name: string;
   phone_number: string;
   holder_cta_bank: string;
-  is_confirmed: boolean;
+  // La API devuelve null mientras la compra está pendiente de revisión
+  // (ver aprobationsSection.tsx: true = confirmada, false = rechazada,
+  // null/undefined = pendiente). El tipo anterior decía solo `boolean`.
+  is_confirmed: boolean | null;
   image_url: string;
   confirmed_at: string | null;
   confirmed_by: string | null;

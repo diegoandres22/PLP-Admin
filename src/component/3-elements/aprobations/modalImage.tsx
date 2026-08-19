@@ -1,7 +1,7 @@
 "use client"
 
 import { AppDispatch } from "@/store";
-import { confirmPurchase, declinePurchase } from "@/store/slices/purchaseSlice";
+import { confirmPurchase } from "@/store/slices/purchaseSlice";
 import { Purchase } from "@/types/purchaseProps";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Image } from "@heroui/react";
 import { IconCoins, IconGrid3x3, IconMail, IconPhone, IconTicket } from "@tabler/icons-react";
@@ -76,10 +76,12 @@ export const ModalImage: React.FC<ModalImageProps> = ({ isOpen, onOpenChange, ta
 
                         {isFullPurchase(data) && (
                             <ModalFooter className="w-full flex justify-between px-6 py-4 bg-gray-50 dark:bg-gray-800 rounded-b-2xl">
-                                <Button color="danger" variant="light" className="rounded-lg" onPress={() => {
-                                    dispatch(declinePurchase(data.id));
-                                    onClose();
-                                }}>
+                                {/* Antes este botón cerraba Y rechazaba la compra a la vez: un
+                                    admin que solo quería cerrar el detalle terminaba rechazando
+                                    sin querer. Ahora "Cerrar" solo cierra; para rechazar hay que
+                                    usar el botón de la fila (o añadir un botón "Rechazar" aquí si
+                                    se prefiere poder hacerlo desde este modal). */}
+                                <Button color="default" variant="light" className="rounded-lg" onPress={onClose}>
                                     Cerrar
                                 </Button>
                                 <Button color="success" className="rounded-lg shadow-md hover:shadow-lg font-bold" onPress={() => {
